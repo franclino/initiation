@@ -57,14 +57,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000000',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     paddingHorizontal: 40,
+    paddingBottom: 140,
   },
   wheel: {
+    position: 'absolute',
+    top: -(WHEEL_SIZE * 0.35),
     width: WHEEL_SIZE,
     height: WHEEL_SIZE,
     opacity: 0.4,
-    marginBottom: 40,
   },
   title: {
     fontFamily: FONTS.headingLight,
