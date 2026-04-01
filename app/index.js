@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Animated, Easing, Dimensions 
 import { useRouter } from 'expo-router';
 import { useEffect, useRef } from 'react';
 import { FONTS, LOGO } from '../constants/theme';
+import { playBackgroundMusic, playIntroVoice } from '../components/AudioManager';
 
 const { width: SCREEN_W } = Dimensions.get('window');
 const WHEEL_SIZE = SCREEN_W * 1.95;
@@ -19,6 +20,10 @@ export default function AppOpen() {
   const orbProgress = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
+    // Start background music low + voice overlay
+    playBackgroundMusic();
+    playIntroVoice();
+
     // Spin to a huge number so it never loops back
     Animated.timing(rotation, {
       toValue: 100,

@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router';
 import { useRef, useState, useCallback } from 'react';
 import * as Haptics from 'expo-haptics';
 import { COLORS, FONTS, WHEEL, GODDESS_IMAGES, ARCHETYPES } from '../../constants/theme';
+import { playWheelTick } from '../../components/AudioManager';
 
 const { width: SCREEN_W } = Dimensions.get('window');
 const WHEEL_RADIUS = SCREEN_W * 0.3;
@@ -30,6 +31,7 @@ export default function ChooseArchetype() {
     if (idx !== lastTickIdx.current) {
       lastTickIdx.current = idx;
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      playWheelTick();
     }
   }, []);
 
