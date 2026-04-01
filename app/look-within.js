@@ -7,7 +7,7 @@ import { COLORS, FONTS, LOGO } from '../constants/theme';
 
 const { width: SCREEN_W } = Dimensions.get('window');
 const WHEEL_SIZE = SCREEN_W * 1.95;
-const ARC_WIDTH = SCREEN_W * 0.55;
+const ARC_WIDTH = SCREEN_W * 0.75;
 const ARC_HEIGHT = 45;
 const ORB_SIZE = 7;
 
