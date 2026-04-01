@@ -17,17 +17,20 @@ export default function AppOpen() {
   const router = useRouter();
   const rotation = useRef(new Animated.Value(0)).current;
   const orbProgress = useRef(new Animated.Value(0)).current;
+  const spinCount = useRef(0);
 
   useEffect(() => {
-    // Wheel spin
-    Animated.loop(
+    // Continuous wheel spin — never resets, just keeps going
+    const spinOnce = () => {
+      spinCount.current += 1;
       Animated.timing(rotation, {
-        toValue: 1,
+        toValue: spinCount.current,
         duration: 38000,
         easing: Easing.linear,
         useNativeDriver: true,
-      }),
-    ).start();
+      }).start(() => spinOnce());
+    };
+    spinOnce();
 
     // Orb traces the half-moon arc: left → up → center → up → right, then back
     Animated.loop(
@@ -49,8 +52,8 @@ export default function AppOpen() {
   }, []);
 
   const spin = rotation.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '360deg'],
+    inputRange: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    outputRange: ['0deg', '360deg', '720deg', '1080deg', '1440deg', '1800deg', '2160deg', '2520deg', '2880deg', '3240deg', '3600deg'],
   });
 
   // Orb X: left to right across the arc
@@ -62,7 +65,7 @@ export default function AppOpen() {
   // Orb Y: inverted arc — dips DOWN at center, pointy at edges
   const orbY = orbProgress.interpolate({
     inputRange: [0, 0.15, 0.5, 0.85, 1],
-    outputRange: [0, ARC_HEIGHT * 0.4, ARC_HEIGHT, ARC_HEIGHT * 0.4, 0],
+    outputRange: [0, ARC_HEIGHT * 0.6, ARC_HEIGHT * 1.35, ARC_HEIGHT * 0.6, 0],
   });
 
   // Orb glow pulses as it moves
@@ -127,7 +130,7 @@ const styles = StyleSheet.create({
   },
   wheelWrap: {
     position: 'absolute',
-    top: -(WHEEL_SIZE * 0.34),
+    top: -(WHEEL_SIZE * 0.37),
     width: WHEEL_SIZE,
     height: WHEEL_SIZE,
     alignItems: 'center',

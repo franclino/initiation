@@ -88,7 +88,7 @@ export default function LookWithin() {
 
   const orbY = orbProgress.interpolate({
     inputRange: [0, 0.15, 0.5, 0.85, 1],
-    outputRange: [0, ARC_HEIGHT * 0.4, ARC_HEIGHT, ARC_HEIGHT * 0.4, 0],
+    outputRange: [0, ARC_HEIGHT * 0.6, ARC_HEIGHT * 1.35, ARC_HEIGHT * 0.6, 0],
   });
 
   const orbOpacity = orbProgress.interpolate({
