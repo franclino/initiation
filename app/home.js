@@ -105,17 +105,17 @@ const styles = StyleSheet.create({
     opacity: 0.4,
   },
   content: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    paddingHorizontal: 24,
-    paddingBottom: 80,
+    position: 'absolute',
+    bottom: 40,
+    left: 24,
+    right: 24,
   },
   title: {
     fontFamily: FONTS.heading,
     fontSize: 22,
     color: COLORS.general.text,
     textAlign: 'center',
-    marginBottom: 32,
+    marginBottom: 24,
   },
   cards: {
     gap: 20,
