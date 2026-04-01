@@ -18,9 +18,8 @@ export default function SamhainThreshold() {
         contentContainerStyle={styles.scroll}
         showsVerticalScrollIndicator={false}
       >
-        <GoddessCard season="samhain" title="Enter the Mystery of Samhain" size="small" />
+        <GoddessCard season="samhain" title="The Crone / The Magician" subtitle="Samhain — NW — Earth, cold" />
 
-        <Text style={styles.header}>Enter the Mystery of Samhain</Text>
         <Text style={styles.subheader}>
           Explore the Archetype of the Crone / The Magician
         </Text>
