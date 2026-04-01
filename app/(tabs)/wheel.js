@@ -54,11 +54,11 @@ const styles = StyleSheet.create({
     textShadowColor: S.glow, textShadowOffset: { width: 0, height: 0 }, textShadowRadius: 10,
   },
   subtitle: {
-    fontFamily: FONTS.body, fontSize: 14, color: S.text, opacity: 0.5,
+    fontFamily: FONTS.body, fontSize: 14, color: S.text, opacity: 0.8,
     textAlign: 'center', marginTop: 6, marginBottom: 28,
   },
   body: {
-    fontFamily: FONTS.body, fontSize: 15, color: S.text, opacity: 0.8,
+    fontFamily: FONTS.body, fontSize: 15, color: S.text, opacity: 0.95,
     lineHeight: 28, textAlign: 'center', marginBottom: 32,
   },
   cta: {

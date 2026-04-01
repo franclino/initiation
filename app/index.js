@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.body,
     fontSize: 15,
     color: '#f5f0e8',
-    opacity: 0.5,
+    opacity: 0.8,
     marginBottom: 60,
   },
   enterButton: {
@@ -66,8 +66,7 @@ const styles = StyleSheet.create({
   enterText: {
     fontFamily: FONTS.headingLight,
     fontSize: 14,
-    color: '#f5f0e8',
+    color: '#ffffff',
     letterSpacing: 8,
-    opacity: 0.8,
   },
 });

@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.body,
     fontSize: 14,
     color: COLORS.general.text,
-    opacity: 0.7,
+    opacity: 0.85,
   },
   cardMuted: {
     borderColor: 'rgba(200,169,96,0.3)',

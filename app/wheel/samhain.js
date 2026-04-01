@@ -116,12 +116,12 @@ const styles = StyleSheet.create({
     textShadowColor: S.glow, textShadowOffset: { width: 0, height: 0 }, textShadowRadius: 10,
   },
   subheading: {
-    fontFamily: FONTS.body, fontSize: 14, color: S.text, opacity: 0.5,
+    fontFamily: FONTS.body, fontSize: 14, color: S.text, opacity: 0.8,
     textAlign: 'center', marginTop: 4, marginBottom: 28,
   },
   section: { marginBottom: 28 },
   poetry: {
-    fontFamily: FONTS.body, fontSize: 15, color: S.text, opacity: 0.85,
+    fontFamily: FONTS.body, fontSize: 15, color: S.text, opacity: 1,
     lineHeight: 28, textAlign: 'center',
   },
   reflectionBox: {
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     marginBottom: 12, textAlign: 'center',
   },
   reflectionText: {
-    fontFamily: FONTS.body, fontSize: 15, color: S.text, opacity: 0.8,
+    fontFamily: FONTS.body, fontSize: 15, color: S.text, opacity: 0.95,
     lineHeight: 26, textAlign: 'center', marginBottom: 12,
   },
   reflectionInvite: {
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     letterSpacing: 3, marginBottom: 10,
   },
   wisdomText: {
-    fontFamily: FONTS.body, fontSize: 15, color: S.text, opacity: 0.7,
+    fontFamily: FONTS.body, fontSize: 15, color: S.text, opacity: 0.9,
     lineHeight: 24, textAlign: 'center', fontStyle: 'italic',
   },
   sectionTitle: {

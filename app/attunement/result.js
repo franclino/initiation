@@ -96,7 +96,7 @@ export default function AttunementResult() {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   logoWrap: { alignSelf: 'center', paddingTop: 60, paddingBottom: 8 },
-  logo: { width: 40, height: 40, opacity: 0.7 },
+  logo: { width: 40, height: 40, opacity: 0.9 },
   scroll: { paddingHorizontal: 24, paddingBottom: 60 },
   description: {
     fontFamily: FONTS.body, fontSize: 15, lineHeight: 26,
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   primaryButton: { borderWidth: 1, borderRadius: 4, padding: 24 },
   primaryText: { fontFamily: FONTS.heading, fontSize: 16, marginBottom: 8 },
   priceText: { fontFamily: FONTS.heading, fontSize: 20, marginBottom: 4 },
-  priceDetail: { fontFamily: FONTS.body, fontSize: 13, opacity: 0.6 },
+  priceDetail: { fontFamily: FONTS.body, fontSize: 13, opacity: 0.85 },
   secondaryButton: {
     borderWidth: 1, borderRadius: 4, padding: 24,
     backgroundColor: 'rgba(139,105,20,0.08)',
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
   secondaryText: { fontFamily: FONTS.heading, fontSize: 16, marginBottom: 8 },
   tertiaryButton: { padding: 20, alignItems: 'center' },
   tertiaryText: {
-    fontFamily: FONTS.body, fontSize: 14, opacity: 0.5,
+    fontFamily: FONTS.body, fontSize: 14, opacity: 0.8,
     textDecorationLine: 'underline', textAlign: 'center',
   },
 });

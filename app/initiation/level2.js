@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     marginTop: 20, marginBottom: 8,
   },
   subheading: {
-    fontFamily: FONTS.body, fontSize: 14, color: S.text, opacity: 0.5,
+    fontFamily: FONTS.body, fontSize: 14, color: S.text, opacity: 0.8,
     textAlign: 'center', marginBottom: 32,
   },
   priceButton: {
@@ -198,10 +198,10 @@ const styles = StyleSheet.create({
   priceHighlight: { borderColor: S.glow, backgroundColor: 'rgba(155,89,182,0.08)' },
   priceTitle: { fontFamily: FONTS.heading, fontSize: 16, color: S.text, marginBottom: 4 },
   priceAmount: { fontFamily: FONTS.heading, fontSize: 20, color: S.glow, marginBottom: 10 },
-  priceDetail: { fontFamily: FONTS.body, fontSize: 13, color: S.text, opacity: 0.6, lineHeight: 20 },
+  priceDetail: { fontFamily: FONTS.body, fontSize: 13, color: S.text, opacity: 0.85, lineHeight: 20 },
   returnButton: {
     borderWidth: 1, borderColor: 'rgba(139,105,20,0.3)', borderRadius: 4,
     padding: 16, width: '100%', alignItems: 'center', marginBottom: 12,
   },
-  returnText: { fontFamily: FONTS.body, fontSize: 14, color: S.text, opacity: 0.5, textAlign: 'center' },
+  returnText: { fontFamily: FONTS.body, fontSize: 14, color: S.text, opacity: 0.8, textAlign: 'center' },
 });

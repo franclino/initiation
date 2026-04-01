@@ -136,13 +136,13 @@ const styles = StyleSheet.create({
     textShadowColor: S.glow, textShadowOffset: { width: 0, height: 0 }, textShadowRadius: 8,
   },
   subheading: {
-    fontFamily: FONTS.body, fontSize: 13, color: S.text, opacity: 0.5,
+    fontFamily: FONTS.body, fontSize: 13, color: S.text, opacity: 0.8,
     textAlign: 'center', lineHeight: 20, marginTop: 8, marginBottom: 16,
   },
   tokenRow: {
     flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 8, marginBottom: 24,
   },
-  tokenLabel: { fontFamily: FONTS.body, fontSize: 14, color: S.text, opacity: 0.6 },
+  tokenLabel: { fontFamily: FONTS.body, fontSize: 14, color: S.text, opacity: 0.85 },
   tokenCount: { fontFamily: FONTS.heading, fontSize: 22, color: S.glow },
   scroll: { paddingHorizontal: 24, paddingBottom: 60 },
   repCard: {
@@ -155,9 +155,9 @@ const styles = StyleSheet.create({
   repSymbol: { fontSize: 28 },
   repName: { fontFamily: FONTS.heading, fontSize: 16, color: S.text },
   repCost: { fontFamily: FONTS.bodyMedium, fontSize: 12, color: S.glow, marginTop: 2 },
-  lockedText: { opacity: 0.5 },
+  lockedText: { opacity: 0.8 },
   chosenMark: { fontSize: 18, color: S.glow },
-  repDesc: { fontFamily: FONTS.body, fontSize: 14, color: S.text, opacity: 0.7, lineHeight: 22 },
+  repDesc: { fontFamily: FONTS.body, fontSize: 14, color: S.text, opacity: 0.9, lineHeight: 22 },
   exchangeBox: {
     borderWidth: 1, borderColor: S.glow, borderRadius: 4, padding: 24, marginTop: 8,
     backgroundColor: 'rgba(155,89,182,0.1)', alignItems: 'center',

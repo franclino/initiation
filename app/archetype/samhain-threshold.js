@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     color: S.text,
     textAlign: 'center',
     lineHeight: 24,
-    opacity: 0.7,
+    opacity: 0.9,
     marginBottom: 40,
   },
   buttons: {
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.body,
     fontSize: 13,
     color: S.text,
-    opacity: 0.6,
+    opacity: 0.85,
   },
   secondaryButton: {
     borderWidth: 1,
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.body,
     fontSize: 14,
     color: S.text,
-    opacity: 0.5,
+    opacity: 0.8,
     textDecorationLine: 'underline',
     textAlign: 'center',
   },

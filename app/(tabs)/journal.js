@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     textShadowColor: S.glow, textShadowOffset: { width: 0, height: 0 }, textShadowRadius: 6,
   },
   subheading: {
-    fontFamily: FONTS.body, fontSize: 13, color: S.text, opacity: 0.5,
+    fontFamily: FONTS.body, fontSize: 13, color: S.text, opacity: 0.8,
     textAlign: 'center', marginTop: 4, marginBottom: 24,
   },
   newButton: {
@@ -161,6 +161,6 @@ const styles = StyleSheet.create({
   entryHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 },
   entryTitle: { fontFamily: FONTS.heading, fontSize: 15, color: S.text, flex: 1 },
   entryDate: { fontFamily: FONTS.body, fontSize: 11, color: S.text, opacity: 0.4 },
-  entrySeason: { fontFamily: FONTS.bodyMedium, fontSize: 10, color: S.glow, opacity: 0.6, letterSpacing: 1, marginBottom: 8 },
-  entryContent: { fontFamily: FONTS.body, fontSize: 14, color: S.text, opacity: 0.7, lineHeight: 22 },
+  entrySeason: { fontFamily: FONTS.bodyMedium, fontSize: 10, color: S.glow, opacity: 0.85, letterSpacing: 1, marginBottom: 8 },
+  entryContent: { fontFamily: FONTS.body, fontSize: 14, color: S.text, opacity: 0.9, lineHeight: 22 },
 });

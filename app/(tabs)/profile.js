@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(155,89,182,0.08)',
     marginBottom: 12,
   },
-  avatarText: { fontSize: 32, color: S.glow, opacity: 0.6 },
+  avatarText: { fontSize: 32, color: S.glow, opacity: 0.85 },
   name: { fontFamily: FONTS.heading, fontSize: 20, color: S.text },
   role: { fontFamily: FONTS.body, fontSize: 13, color: S.text, opacity: 0.4, marginTop: 2 },
   sectionTitle: {
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   journeyLocked: { opacity: 0.4 },
   journeyRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   journeyName: { fontFamily: FONTS.body, fontSize: 14, color: S.text, flex: 1 },
-  lockedText: { opacity: 0.6 },
+  lockedText: { opacity: 0.85 },
   journeyStatus: { fontFamily: FONTS.bodyMedium, fontSize: 11, color: S.text, opacity: 0.4 },
   activeStatus: { color: S.glow, opacity: 1 },
   emptyText: {
@@ -143,11 +143,11 @@ const styles = StyleSheet.create({
     borderWidth: 1, borderColor: 'rgba(139,105,20,0.3)', borderRadius: 4,
     padding: 14, alignItems: 'center',
   },
-  journalLinkText: { fontFamily: FONTS.body, fontSize: 14, color: S.text, opacity: 0.6 },
+  journalLinkText: { fontFamily: FONTS.body, fontSize: 14, color: S.text, opacity: 0.85 },
   settingsGroup: { marginBottom: 40 },
   settingRow: {
     borderBottomWidth: 1, borderBottomColor: 'rgba(139,105,20,0.1)',
     paddingVertical: 14,
   },
-  settingText: { fontFamily: FONTS.body, fontSize: 14, color: S.text, opacity: 0.6 },
+  settingText: { fontFamily: FONTS.body, fontSize: 14, color: S.text, opacity: 0.85 },
 });

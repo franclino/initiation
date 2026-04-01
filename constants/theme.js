@@ -12,10 +12,10 @@ export const COLORS = {
   // Samhain
   samhain: {
     background: '#000000',       // Black
-    text: '#d4d4d4',             // Light grey
+    text: '#eeeeee',             // Bright white-grey
     overlay: '#9e9e9e80',        // Mist grey
     accent: '#8b6914',           // Antique brown lines
-    glow: '#9b59b6',             // Purple glow
+    glow: '#b874d6',             // Brighter purple glow
   },
 
   // Yule
