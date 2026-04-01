@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: (SCREEN_H - WHEEL_SIZE) / 2,
     left: (SCREEN_W - WHEEL_SIZE) / 2,
-    opacity: 0.12,
+    opacity: 0.35,
   },
   ambientGlow: {
     position: 'absolute', bottom: -100, left: -50, right: -50,
