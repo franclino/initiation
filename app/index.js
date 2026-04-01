@@ -8,10 +8,10 @@ import { FONTS, LOGO } from '../constants/theme';
 const { width: SCREEN_W } = Dimensions.get('window');
 const WHEEL_SIZE = SCREEN_W * 1.95;
 
-// Half-moon arc dimensions
-const ARC_WIDTH = SCREEN_W * 0.6;
-const ARC_HEIGHT = 30; // How high the arc rises above the text
-const ORB_SIZE = 8;
+// Inverted crescent arc — pointy edges, long and thin
+const ARC_WIDTH = SCREEN_W * 0.75;
+const ARC_HEIGHT = 20;
+const ORB_SIZE = 7;
 
 export default function AppOpen() {
   const router = useRouter();
@@ -59,10 +59,10 @@ export default function AppOpen() {
     outputRange: [-(ARC_WIDTH / 2), ARC_WIDTH / 2],
   });
 
-  // Orb Y: follows a half-moon arc (sine curve), barely touching at center
+  // Orb Y: inverted arc — dips DOWN at center, pointy at edges
   const orbY = orbProgress.interpolate({
-    inputRange: [0, 0.25, 0.5, 0.75, 1],
-    outputRange: [0, -ARC_HEIGHT * 0.8, -ARC_HEIGHT, -ARC_HEIGHT * 0.8, 0],
+    inputRange: [0, 0.15, 0.5, 0.85, 1],
+    outputRange: [0, ARC_HEIGHT * 0.4, ARC_HEIGHT, ARC_HEIGHT * 0.4, 0],
   });
 
   // Orb glow pulses as it moves
@@ -140,23 +140,23 @@ const styles = StyleSheet.create({
   },
   arcContainer: {
     width: ARC_WIDTH,
-    height: ARC_HEIGHT + ORB_SIZE + 10,
+    height: ARC_HEIGHT + ORB_SIZE + 14,
     alignItems: 'center',
-    justifyContent: 'flex-end',
-    marginBottom: 6,
+    justifyContent: 'flex-start',
+    marginBottom: 4,
   },
   arcLine: {
     position: 'absolute',
-    bottom: ORB_SIZE / 2,
+    top: 0,
     width: ARC_WIDTH,
-    height: ARC_HEIGHT * 2,
-    borderTopLeftRadius: ARC_WIDTH / 2,
-    borderTopRightRadius: ARC_WIDTH / 2,
-    borderTopWidth: 1,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
-    borderColor: 'rgba(200,169,96,0.15)',
-    borderBottomWidth: 0,
+    height: ARC_HEIGHT * 2.5,
+    borderBottomLeftRadius: ARC_WIDTH / 1.6,
+    borderBottomRightRadius: ARC_WIDTH / 1.6,
+    borderBottomWidth: 1,
+    borderLeftWidth: 0.5,
+    borderRightWidth: 0.5,
+    borderColor: 'rgba(200,169,96,0.18)',
+    borderTopWidth: 0,
   },
   orb: {
     width: ORB_SIZE,
