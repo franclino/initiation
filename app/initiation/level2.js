@@ -4,7 +4,6 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { COLORS, FONTS, PRICING } from '../../constants/theme';
 import AtmosphericBackground from '../../components/AtmosphericBackground';
-import BreathingLogo from '../../components/BreathingLogo';
 
 const S = COLORS.samhain;
 
@@ -53,7 +52,6 @@ export default function Level2() {
   if (phase === 'intro') {
     return (
       <AtmosphericBackground season="samhain">
-        <BreathingLogo size={40} onPress={() => router.back()} />
         <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
           <Text style={styles.repSymbol}>{rep.symbol}</Text>
           <Text style={styles.repName}>{rep.name}</Text>
@@ -69,7 +67,6 @@ export default function Level2() {
   if (phase === 'ritual') {
     return (
       <AtmosphericBackground season="samhain">
-        <BreathingLogo size={40} onPress={() => router.back()} />
         <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
           <Text style={styles.ritualLabel}>CORE RITUAL</Text>
           <Text style={styles.repName}>{rep.name}</Text>
@@ -85,7 +82,6 @@ export default function Level2() {
   if (phase === 'complete') {
     return (
       <AtmosphericBackground season="samhain">
-        <BreathingLogo size={40} onPress={() => router.back()} />
         <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
           <Text style={styles.repSymbol}>{rep.symbol}</Text>
           <Text style={styles.completionText}>
@@ -104,7 +100,6 @@ export default function Level2() {
   // Deepening threshold
   return (
     <AtmosphericBackground season="samhain">
-      <BreathingLogo size={40} onPress={() => router.push('/home')} />
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
         <Text style={styles.heading}>Deepen the Path of {rep.name}</Text>
         <Text style={styles.subheading}>

@@ -4,6 +4,8 @@ import { View, StyleSheet, Dimensions, Animated, Easing, Image } from 'react-nat
 import { useEffect, useRef, useMemo } from 'react';
 import { COLORS, LOGO } from '../constants/theme';
 
+const WHEEL_SIZE = SCREEN_W * 1.5;
+
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
 
 const SEASON_PARTICLES = {
@@ -174,13 +176,12 @@ function AmbientGlow({ color }) {
 
 function SpinningWheel() {
   const rotation = useRef(new Animated.Value(0)).current;
-  const wheelSize = SCREEN_W * 1.1;
 
   useEffect(() => {
     Animated.loop(
       Animated.timing(rotation, {
         toValue: 1,
-        duration: 90000, // 90 seconds per full rotation
+        duration: 90000,
         easing: Easing.linear,
         useNativeDriver: true,
       }),
@@ -194,12 +195,12 @@ function SpinningWheel() {
 
   return (
     <Animated.Image
-      source={LOGO.dark}
+      source={LOGO.wheelOnly}
       style={[
         styles.spinningWheel,
         {
-          width: wheelSize,
-          height: wheelSize,
+          width: WHEEL_SIZE,
+          height: WHEEL_SIZE,
           transform: [{ rotate: spin }],
         },
       ]}
@@ -232,11 +233,9 @@ const styles = StyleSheet.create({
   container: { flex: 1, overflow: 'hidden' },
   spinningWheel: {
     position: 'absolute',
-    top: '50%',
-    left: '50%',
-    marginTop: -(SCREEN_W * 1.1) / 2,
-    marginLeft: -(SCREEN_W * 1.1) / 2,
-    opacity: 0.15,
+    top: (SCREEN_H - WHEEL_SIZE) / 2,
+    left: (SCREEN_W - WHEEL_SIZE) / 2,
+    opacity: 0.12,
   },
   ambientGlow: {
     position: 'absolute', bottom: -100, left: -50, right: -50,

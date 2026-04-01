@@ -5,7 +5,6 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 import { FONTS } from '../constants/theme';
 import AtmosphericBackground from '../components/AtmosphericBackground';
-import BreathingLogo from '../components/BreathingLogo';
 
 export default function AppOpen() {
   const router = useRouter();
@@ -13,12 +12,6 @@ export default function AppOpen() {
   return (
     <AtmosphericBackground season="samhain">
       <View style={styles.container}>
-        <BreathingLogo
-          size={140}
-          onPress={() => {}}
-          style={{ paddingTop: 0, marginBottom: 40 }}
-        />
-
         <Text style={styles.title}>INITIATION</Text>
         <Text style={styles.subtitle}>A Journey to Self-Discovery</Text>
 

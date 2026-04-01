@@ -4,7 +4,6 @@ import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { COLORS, FONTS } from '../../constants/theme';
 import AtmosphericBackground from '../../components/AtmosphericBackground';
-import BreathingLogo from '../../components/BreathingLogo';
 
 const S = COLORS.samhain;
 
@@ -67,7 +66,6 @@ export default function Chamber() {
 
   return (
     <AtmosphericBackground season="samhain">
-      <BreathingLogo size={40} onPress={() => router.back()} />
 
       <Text style={styles.heading}>The Chamber</Text>
       <Text style={styles.subheading}>

@@ -3,7 +3,6 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'rea
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { COLORS, FONTS, PRICING, GODDESS_IMAGES, LOGO } from '../../constants/theme';
 import AtmosphericBackground from '../../components/AtmosphericBackground';
-import BreathingLogo from '../../components/BreathingLogo';
 import GoddessCard from '../../components/GoddessCard';
 
 const ARCHETYPE_INFO = {
@@ -31,7 +30,6 @@ export default function AttunementResult() {
 
   return (
     <AtmosphericBackground season={key}>
-      <BreathingLogo size={40} />
 
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
         {/* Goddess card */}

@@ -3,7 +3,6 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-nati
 import { useRouter } from 'expo-router';
 import { COLORS, FONTS } from '../../constants/theme';
 import AtmosphericBackground from '../../components/AtmosphericBackground';
-import BreathingLogo from '../../components/BreathingLogo';
 
 const S = COLORS.samhain;
 
@@ -12,7 +11,6 @@ export default function EnteringInitiation() {
 
   return (
     <AtmosphericBackground season="samhain">
-      <BreathingLogo size={40} />
 
       <ScrollView
         contentContainerStyle={styles.scroll}

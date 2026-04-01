@@ -4,7 +4,6 @@ import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { COLORS, FONTS } from '../../constants/theme';
 import AtmosphericBackground from '../../components/AtmosphericBackground';
-import BreathingLogo from '../../components/BreathingLogo';
 
 const S = COLORS.samhain;
 
@@ -34,7 +33,6 @@ export default function Dashboard() {
 
   return (
     <AtmosphericBackground season="samhain">
-      <BreathingLogo size={36} />
 
       {/* Header */}
       <View style={styles.header}>

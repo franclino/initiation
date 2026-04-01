@@ -2,14 +2,12 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 import { COLORS, FONTS, WHEEL } from '../../constants/theme';
-import SacredLogo from '../../components/SacredLogo';
 
 export default function ChooseArchetype() {
   const router = useRouter();
 
   return (
     <View style={styles.container}>
-      <SacredLogo size={44} />
 
       <Text style={styles.title}>Choose an Archetype</Text>
       <Text style={styles.subtitle}>Tap a season on the Wheel</Text>

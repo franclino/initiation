@@ -121,6 +121,7 @@ export const GODDESS_IMAGES = {
 export const LOGO = {
   dark: require('../assets/images/logo/logo-dark.png'),
   light: require('../assets/images/logo/logo-light.jpg'),
+  wheelOnly: require('../assets/images/logo/wheel-only.png'),
 };
 
 // Board

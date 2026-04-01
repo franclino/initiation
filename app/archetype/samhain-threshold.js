@@ -2,7 +2,6 @@
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { COLORS, FONTS, PRICING } from '../../constants/theme';
-import SacredLogo from '../../components/SacredLogo';
 import GoddessCard from '../../components/GoddessCard';
 
 const S = COLORS.samhain;
@@ -12,7 +11,6 @@ export default function SamhainThreshold() {
 
   return (
     <View style={styles.container}>
-      <SacredLogo size={40} />
 
       <ScrollView
         contentContainerStyle={styles.scroll}
