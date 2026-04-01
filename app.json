@@ -32,6 +32,19 @@
     "plugins": [
       "expo-router",
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "e7913949-33a1-484d-aef2-14f8929c2bed"
+      }
+    },
+    "owner": "ukiyo369",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/e7913949-33a1-484d-aef2-14f8929c2bed"
+    }
   }
 }
