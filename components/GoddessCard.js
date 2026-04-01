@@ -18,7 +18,7 @@ export default function GoddessCard({ season = 'samhain', title, subtitle, size 
         <Image
           source={image}
           style={[styles.image, isLarge ? styles.imageLarge : styles.imageSmall]}
-          resizeMode="contain"
+          resizeMode="cover"
         />
         {/* Gradient overlay for text readability */}
         <View style={styles.imageOverlay} />
@@ -60,13 +60,13 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    backgroundColor: 'rgba(0,0,0,0.6)',
+    borderRadius: 4,
   },
   imageLarge: {
-    aspectRatio: 1,
+    height: 400,
   },
   imageSmall: {
-    aspectRatio: 1.2,
+    height: 240,
   },
   imageOverlay: {
     position: 'absolute',
