@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     height: ARC_HEIGHT + ORB_SIZE + 14,
     alignItems: 'center',
     justifyContent: 'flex-start',
-    marginBottom: 4,
+    marginBottom: 40,
   },
   arcLine: {
     position: 'absolute',
