@@ -2,6 +2,8 @@
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { COLORS, FONTS, PRICING, GODDESS_IMAGES, LOGO } from '../../constants/theme';
+import AtmosphericBackground from '../../components/AtmosphericBackground';
+import BreathingLogo from '../../components/BreathingLogo';
 import GoddessCard from '../../components/GoddessCard';
 
 const ARCHETYPE_INFO = {
@@ -28,10 +30,8 @@ export default function AttunementResult() {
   const C = info.colors;
 
   return (
-    <View style={[styles.container, { backgroundColor: C.background }]}>
-      <TouchableOpacity onPress={() => router.push('/home')} style={styles.logoWrap}>
-        <Image source={LOGO.dark} style={styles.logo} resizeMode="contain" />
-      </TouchableOpacity>
+    <AtmosphericBackground season={key}>
+      <BreathingLogo size={40} />
 
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
         {/* Goddess card */}
@@ -89,7 +89,7 @@ export default function AttunementResult() {
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </View>
+    </AtmosphericBackground>
   );
 }
 

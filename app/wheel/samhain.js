@@ -2,7 +2,8 @@
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { COLORS, FONTS } from '../../constants/theme';
-import SacredLogo from '../../components/SacredLogo';
+import AtmosphericBackground from '../../components/AtmosphericBackground';
+import BreathingLogo from '../../components/BreathingLogo';
 import GoddessCard from '../../components/GoddessCard';
 
 const S = COLORS.samhain;
@@ -11,8 +12,8 @@ export default function SamhainScreen() {
   const router = useRouter();
 
   return (
-    <View style={styles.container}>
-      <SacredLogo size={40} />
+    <AtmosphericBackground season="samhain">
+      <BreathingLogo size={40} />
 
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
         {/* Goddess image */}
@@ -104,12 +105,11 @@ export default function SamhainScreen() {
           <Text style={styles.ctaText}>Explore the Archetype</Text>
         </TouchableOpacity>
       </ScrollView>
-    </View>
+    </AtmosphericBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: S.background },
   scroll: { paddingHorizontal: 24, paddingBottom: 60 },
   heading: {
     fontFamily: FONTS.heading, fontSize: 26, color: S.text, textAlign: 'center',
