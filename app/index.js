@@ -11,7 +11,7 @@ const WHEEL_SIZE = SCREEN_W * 1.95;
 
 // Inverted crescent arc — pointy edges, long and thin
 const ARC_WIDTH = SCREEN_W * 0.75;
-const ARC_HEIGHT = 45;
+const ARC_HEIGHT = 60;
 const ORB_SIZE = 7;
 
 export default function AppOpen() {
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     height: ARC_HEIGHT * 1.5 + ORB_SIZE + 20,
     alignItems: 'center',
     justifyContent: 'flex-start',
-    marginBottom: 70,
+    marginBottom: 10,
     position: 'relative',
   },
   moonPhase: {
