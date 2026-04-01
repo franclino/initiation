@@ -1,38 +1,73 @@
 // SCREEN 1 — APP OPEN — The threshold
-// Black void. Sacred geometry breathes. Particles drift like ash.
-// "INITIATION — A Journey to Self-Discovery"
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+// Big sacred geometry wheel slowly spinning. Text floats over it.
+import { View, Text, TouchableOpacity, StyleSheet, Animated, Easing, Dimensions } from 'react-native';
 import { useRouter } from 'expo-router';
-import { FONTS } from '../constants/theme';
-import AtmosphericBackground from '../components/AtmosphericBackground';
+import { useEffect, useRef } from 'react';
+import { FONTS, LOGO } from '../constants/theme';
+
+const { width: SCREEN_W } = Dimensions.get('window');
+const WHEEL_SIZE = SCREEN_W * 1.3;
 
 export default function AppOpen() {
   const router = useRouter();
+  const rotation = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.timing(rotation, {
+        toValue: 1,
+        duration: 60000,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }),
+    ).start();
+  }, []);
+
+  const spin = rotation.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
+  });
 
   return (
-    <AtmosphericBackground season="samhain">
-      <View style={styles.container}>
-        <Text style={styles.title}>INITIATION</Text>
-        <Text style={styles.subtitle}>A Journey to Self-Discovery</Text>
+    <View style={styles.container}>
+      {/* Big spinning wheel */}
+      <Animated.Image
+        source={LOGO.wheelOnly}
+        style={[
+          styles.wheel,
+          { transform: [{ rotate: spin }] },
+        ]}
+        resizeMode="contain"
+      />
 
-        <TouchableOpacity
-          style={styles.enterButton}
-          onPress={() => router.push('/home')}
-          activeOpacity={0.7}
-        >
-          <Text style={styles.enterText}>ENTER</Text>
-        </TouchableOpacity>
-      </View>
-    </AtmosphericBackground>
+      {/* Text on top */}
+      <Text style={styles.title}>INITIATION</Text>
+      <Text style={styles.subtitle}>A Journey to Self-Discovery</Text>
+
+      <TouchableOpacity
+        style={styles.enterButton}
+        onPress={() => router.push('/home')}
+        activeOpacity={0.7}
+      >
+        <Text style={styles.enterText}>ENTER</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#000000',
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 40,
+  },
+  wheel: {
+    position: 'absolute',
+    width: WHEEL_SIZE,
+    height: WHEEL_SIZE,
+    opacity: 0.4,
   },
   title: {
     fontFamily: FONTS.headingLight,
