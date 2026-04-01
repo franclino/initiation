@@ -62,10 +62,10 @@ export default function AppOpen() {
     outputRange: [-(ARC_WIDTH / 2), ARC_WIDTH / 2],
   });
 
-  // Orb Y: inverted arc — dips DOWN at center, pointy at edges
+  // Orb Y: bull's horns — high at edges, dips to center
   const orbY = orbProgress.interpolate({
     inputRange: [0, 0.15, 0.5, 0.85, 1],
-    outputRange: [0, ARC_HEIGHT * 0.6, ARC_HEIGHT * 1.35, ARC_HEIGHT * 0.6, 0],
+    outputRange: [ARC_HEIGHT * 1.35, ARC_HEIGHT * 0.75, 0, ARC_HEIGHT * 0.75, ARC_HEIGHT * 1.35],
   });
 
   // Orb glow pulses as it moves
@@ -88,10 +88,10 @@ export default function AppOpen() {
       {/* Moon phases along the arc + golden orb passing through */}
       <View style={styles.arcContainer}>
         {/* Moon phase symbols along the arc path */}
-        {['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘'].map((moon, i) => {
+        {['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌑'].map((moon, i) => {
           const t = i / 7; // 0 to 1 across the arc
           const x = (t - 0.5) * ARC_WIDTH;
-          const y = Math.sin(t * Math.PI) * ARC_HEIGHT * 1.35;
+          const y = -Math.sin(t * Math.PI) * ARC_HEIGHT * 1.35 + ARC_HEIGHT * 1.35;
           return (
             <Animated.Text
               key={i}
