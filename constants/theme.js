@@ -107,14 +107,14 @@ export const WHEEL = {
 
 // Goddess images mapped to seasons
 export const GODDESS_IMAGES = {
-  samhain: require('../assets/images/goddesses/samhain-crone.png'),
-  yule: require('../assets/images/goddesses/yule-air.png'),
+  samhain: require('../assets/images/goddesses/samhain-crone.jpg'),
+  yule: require('../assets/images/goddesses/yule-air.jpg'),
   imbolc: require('../assets/images/goddesses/imbolc-brigid.jpg'),
-  ostara: require('../assets/images/goddesses/ostara-fire.png'),
-  beltane: require('../assets/images/goddesses/beltane-lover.png'),
-  litha: require('../assets/images/goddesses/litha-water.png'),
-  lammas: require('../assets/images/goddesses/lammas-earth.png'),
-  mabon: require('../assets/images/goddesses/mabon-mother.png'),
+  ostara: require('../assets/images/goddesses/ostara-fire.jpg'),
+  beltane: require('../assets/images/goddesses/beltane-lover.jpg'),
+  litha: require('../assets/images/goddesses/litha-water.jpg'),
+  lammas: require('../assets/images/goddesses/lammas-earth.jpg'),
+  mabon: require('../assets/images/goddesses/mabon-mother.jpg'),
 };
 
 // Logo
