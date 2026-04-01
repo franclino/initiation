@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   },
   wheelWrap: {
     position: 'absolute',
-    top: -(WHEEL_SIZE * 0.25),
+    top: -(WHEEL_SIZE * 0.28),
     width: WHEEL_SIZE,
     height: WHEEL_SIZE,
     alignItems: 'center',
