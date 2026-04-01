@@ -1,5 +1,5 @@
 // SCREEN 1 — APP OPEN — The threshold
-// Big sacred geometry wheel slowly spinning. Text floats over it.
+// Spinning wheel, half-moon arc with orbiting circle above INITIATION
 import { View, Text, TouchableOpacity, StyleSheet, Animated, Easing, Dimensions } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useEffect, useRef } from 'react';
@@ -8,11 +8,18 @@ import { FONTS, LOGO } from '../constants/theme';
 const { width: SCREEN_W } = Dimensions.get('window');
 const WHEEL_SIZE = SCREEN_W * 1.95;
 
+// Half-moon arc dimensions
+const ARC_WIDTH = SCREEN_W * 0.6;
+const ARC_HEIGHT = 30; // How high the arc rises above the text
+const ORB_SIZE = 8;
+
 export default function AppOpen() {
   const router = useRouter();
   const rotation = useRef(new Animated.Value(0)).current;
+  const orbProgress = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
+    // Wheel spin
     Animated.loop(
       Animated.timing(rotation, {
         toValue: 1,
@@ -21,11 +28,47 @@ export default function AppOpen() {
         useNativeDriver: true,
       }),
     ).start();
+
+    // Orb traces the half-moon arc: left → up → center → up → right, then back
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(orbProgress, {
+          toValue: 1,
+          duration: 6000,
+          easing: Easing.inOut(Easing.sin),
+          useNativeDriver: true,
+        }),
+        Animated.timing(orbProgress, {
+          toValue: 0,
+          duration: 6000,
+          easing: Easing.inOut(Easing.sin),
+          useNativeDriver: true,
+        }),
+      ]),
+    ).start();
   }, []);
 
   const spin = rotation.interpolate({
     inputRange: [0, 1],
     outputRange: ['0deg', '360deg'],
+  });
+
+  // Orb X: left to right across the arc
+  const orbX = orbProgress.interpolate({
+    inputRange: [0, 1],
+    outputRange: [-(ARC_WIDTH / 2), ARC_WIDTH / 2],
+  });
+
+  // Orb Y: follows a half-moon arc (sine curve), barely touching at center
+  const orbY = orbProgress.interpolate({
+    inputRange: [0, 0.25, 0.5, 0.75, 1],
+    outputRange: [0, -ARC_HEIGHT * 0.8, -ARC_HEIGHT, -ARC_HEIGHT * 0.8, 0],
+  });
+
+  // Orb glow pulses as it moves
+  const orbOpacity = orbProgress.interpolate({
+    inputRange: [0, 0.5, 1],
+    outputRange: [0.4, 1, 0.4],
   });
 
   return (
@@ -39,7 +82,26 @@ export default function AppOpen() {
         />
       </View>
 
-      {/* Text on top */}
+      {/* Half-moon arc + orb above INITIATION */}
+      <View style={styles.arcContainer}>
+        {/* The thin arc line */}
+        <View style={styles.arcLine} />
+        {/* The orbiting circle */}
+        <Animated.View
+          style={[
+            styles.orb,
+            {
+              transform: [
+                { translateX: orbX },
+                { translateY: orbY },
+              ],
+              opacity: orbOpacity,
+            },
+          ]}
+        />
+      </View>
+
+      {/* Text */}
       <Text style={styles.title}>INITIATION</Text>
       <Text style={styles.subtitle}>A Journey to Self-Discovery</Text>
 
@@ -75,6 +137,36 @@ const styles = StyleSheet.create({
     width: WHEEL_SIZE,
     height: WHEEL_SIZE,
     opacity: 0.4,
+  },
+  arcContainer: {
+    width: ARC_WIDTH,
+    height: ARC_HEIGHT + ORB_SIZE + 10,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    marginBottom: 6,
+  },
+  arcLine: {
+    position: 'absolute',
+    bottom: ORB_SIZE / 2,
+    width: ARC_WIDTH,
+    height: ARC_HEIGHT * 2,
+    borderTopLeftRadius: ARC_WIDTH / 2,
+    borderTopRightRadius: ARC_WIDTH / 2,
+    borderTopWidth: 1,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderColor: 'rgba(200,169,96,0.15)',
+    borderBottomWidth: 0,
+  },
+  orb: {
+    width: ORB_SIZE,
+    height: ORB_SIZE,
+    borderRadius: ORB_SIZE / 2,
+    backgroundColor: '#c8a960',
+    shadowColor: '#c8a960',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.8,
+    shadowRadius: 8,
   },
   title: {
     fontFamily: FONTS.headingLight,
