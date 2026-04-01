@@ -2,6 +2,7 @@
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { COLORS, FONTS } from '../../constants/theme';
+import SacredLogo from '../../components/SacredLogo';
 
 const S = COLORS.samhain;
 
@@ -10,9 +11,7 @@ export default function EnteringInitiation() {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => router.push('/home')} style={styles.logo}>
-        <Text style={styles.logoText}>✦</Text>
-      </TouchableOpacity>
+      <SacredLogo size={40} />
 
       <ScrollView
         contentContainerStyle={styles.scroll}

@@ -2,6 +2,8 @@
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { COLORS, FONTS, PRICING } from '../../constants/theme';
+import SacredLogo from '../../components/SacredLogo';
+import GoddessCard from '../../components/GoddessCard';
 
 const S = COLORS.samhain;
 
@@ -10,14 +12,14 @@ export default function SamhainThreshold() {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => router.push('/home')} style={styles.logo}>
-        <Text style={styles.logoText}>✦</Text>
-      </TouchableOpacity>
+      <SacredLogo size={40} />
 
       <ScrollView
         contentContainerStyle={styles.scroll}
         showsVerticalScrollIndicator={false}
       >
+        <GoddessCard season="samhain" title="Enter the Mystery of Samhain" size="small" />
+
         <Text style={styles.header}>Enter the Mystery of Samhain</Text>
         <Text style={styles.subheader}>
           Explore the Archetype of the Crone / The Magician

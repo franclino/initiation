@@ -1,17 +1,15 @@
 // SCREEN 1 — APP OPEN
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useRouter } from 'expo-router';
-import { COLORS, FONTS } from '../constants/theme';
+import { COLORS, FONTS, LOGO } from '../constants/theme';
 
 export default function AppOpen() {
   const router = useRouter();
 
   return (
     <View style={styles.container}>
-      {/* Logo placeholder */}
-      <View style={styles.logoContainer}>
-        <Text style={styles.logoText}>✦</Text>
-      </View>
+      {/* Sacred geometry logo */}
+      <Image source={LOGO.dark} style={styles.logo} resizeMode="contain" />
 
       <Text style={styles.title}>INITIATION</Text>
       <Text style={styles.subtitle}>A Journey to Self-Discovery</Text>
@@ -30,44 +28,43 @@ export default function AppOpen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.general.background,
+    backgroundColor: '#000000',
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 40,
   },
-  logoContainer: {
+  logo: {
+    width: 140,
+    height: 140,
     marginBottom: 40,
-  },
-  logoText: {
-    fontSize: 48,
-    color: COLORS.general.accent,
-    opacity: 0.8,
+    opacity: 0.9,
   },
   title: {
-    fontFamily: FONTS.heading,
+    fontFamily: FONTS.headingLight,
     fontSize: 32,
-    color: COLORS.general.text,
-    letterSpacing: 8,
+    color: '#f5f0e8',
+    letterSpacing: 12,
     marginBottom: 12,
   },
   subtitle: {
     fontFamily: FONTS.body,
-    fontSize: 16,
-    color: COLORS.general.text,
-    opacity: 0.7,
+    fontSize: 15,
+    color: '#f5f0e8',
+    opacity: 0.5,
     marginBottom: 60,
   },
   enterButton: {
     borderWidth: 1,
-    borderColor: COLORS.general.accent,
+    borderColor: 'rgba(200,169,96,0.4)',
     paddingVertical: 16,
-    paddingHorizontal: 48,
+    paddingHorizontal: 52,
     borderRadius: 2,
   },
   enterText: {
     fontFamily: FONTS.headingLight,
     fontSize: 14,
-    color: COLORS.general.text,
-    letterSpacing: 6,
+    color: '#f5f0e8',
+    letterSpacing: 8,
+    opacity: 0.8,
   },
 });

@@ -105,6 +105,39 @@ export const WHEEL = {
   ],
 };
 
+// Goddess images mapped to seasons
+export const GODDESS_IMAGES = {
+  samhain: require('../assets/images/goddesses/samhain-crone.png'),
+  yule: require('../assets/images/goddesses/yule-air.png'),
+  imbolc: require('../assets/images/goddesses/imbolc-brigid.jpg'),
+  ostara: require('../assets/images/goddesses/ostara-fire.png'),
+  beltane: require('../assets/images/goddesses/beltane-lover.png'),
+  litha: require('../assets/images/goddesses/litha-water.png'),
+  lammas: require('../assets/images/goddesses/lammas-earth.png'),
+  mabon: require('../assets/images/goddesses/mabon-mother.png'),
+};
+
+// Logo
+export const LOGO = {
+  dark: require('../assets/images/logo/logo-dark.png'),
+  light: require('../assets/images/logo/logo-light.jpg'),
+};
+
+// Board
+export const BOARD_IMAGE = require('../assets/images/board/wheel-board.jpg');
+
+// Archetype names per season
+export const ARCHETYPES = {
+  samhain: { name: 'Crone / Magician', element: 'Earth, cold' },
+  yule: { name: 'Sage / Mystic', element: 'Air, cold' },
+  imbolc: { name: 'Maiden / Warrior', element: 'Fire, cold' },
+  ostara: { name: 'Youth / Explorer', element: 'Fire, warm' },
+  beltane: { name: 'Lover / Artist', element: 'Flowers, warm' },
+  litha: { name: 'Sovereign / Guardian', element: 'Water, cold' },
+  lammas: { name: 'Mother / Provider', element: 'Earth, warm' },
+  mabon: { name: 'Harvest Keeper', element: 'Earth, warm' },
+};
+
 export const PRICING = {
   singleArchetype: 36,
   fullWheel: 222,

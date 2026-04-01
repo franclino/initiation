@@ -1,16 +1,16 @@
 // SCREEN 2 — HOME SCREEN
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
 import { useRouter } from 'expo-router';
-import { COLORS, FONTS } from '../constants/theme';
+import { COLORS, FONTS, LOGO } from '../constants/theme';
 
 export default function HomeScreen() {
   const router = useRouter();
 
   return (
     <View style={styles.container}>
-      {/* Logo */}
-      <TouchableOpacity onPress={() => router.push('/')} style={styles.logo}>
-        <Text style={styles.logoText}>✦</Text>
+      {/* Sacred logo */}
+      <TouchableOpacity onPress={() => router.push('/')} style={styles.logoWrap}>
+        <Image source={LOGO.dark} style={styles.logo} resizeMode="contain" />
       </TouchableOpacity>
 
       <Text style={styles.title}>Where would you like to begin?</Text>
@@ -63,17 +63,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.general.background,
-    paddingTop: 80,
+    paddingTop: 60,
     paddingHorizontal: 24,
   },
-  logo: {
+  logoWrap: {
     alignSelf: 'center',
-    marginBottom: 40,
+    marginBottom: 32,
   },
-  logoText: {
-    fontSize: 32,
-    color: COLORS.general.accent,
-    opacity: 0.8,
+  logo: {
+    width: 44,
+    height: 44,
+    opacity: 0.7,
   },
   title: {
     fontFamily: FONTS.heading,

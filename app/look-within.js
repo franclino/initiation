@@ -2,15 +2,14 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 import { COLORS, FONTS } from '../constants/theme';
+import SacredLogo from '../components/SacredLogo';
 
 export default function LookWithin() {
   const router = useRouter();
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => router.push('/home')} style={styles.logo}>
-        <Text style={styles.logoText}>✦</Text>
-      </TouchableOpacity>
+      <SacredLogo size={44} />
 
       <Text style={styles.title}>Look Within</Text>
       <Text style={styles.subtitle}>Sacred Archetypal Journey</Text>

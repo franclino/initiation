@@ -1,65 +1,37 @@
-// TAB: Wheel — Seasonal landing (redirects to current season)
+// TAB: Wheel — The Living Wheel with board game visual
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
-import { COLORS, FONTS, WHEEL } from '../../constants/theme';
+import { COLORS, FONTS } from '../../constants/theme';
+import SacredLogo from '../../components/SacredLogo';
+import WheelOfYear from '../../components/WheelOfYear';
 
 const S = COLORS.samhain;
 
 export default function WheelTab() {
   const router = useRouter();
 
-  // Current season detection — for now hardcoded to Samhain
-  const currentSeason = WHEEL.seasons.find((s) => s.key === 'samhain');
-
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => router.push('/home')} style={styles.logo}>
-        <Text style={styles.logoText}>✦</Text>
-      </TouchableOpacity>
+      <SacredLogo size={40} />
 
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
-        {/* Wheel placeholder */}
-        <View style={styles.wheelContainer}>
-          <View style={styles.wheel}>
-            {WHEEL.seasons.map((season) => {
-              const isCurrent = season.key === currentSeason.key;
-              const rad = ((season.angle - 90) * Math.PI) / 180;
-              const r = 90;
-              const x = Math.cos(rad) * r;
-              const y = Math.sin(rad) * r;
-              return (
-                <View
-                  key={season.key}
-                  style={[
-                    styles.seasonDot,
-                    {
-                      transform: [{ translateX: x }, { translateY: y }],
-                    },
-                    isCurrent && styles.seasonDotActive,
-                  ]}
-                >
-                  <Text
-                    style={[
-                      styles.seasonLabel,
-                      isCurrent && styles.seasonLabelActive,
-                    ]}
-                  >
-                    {season.name}
-                  </Text>
-                </View>
-              );
-            })}
-            <Text style={styles.wheelCenter}>⊛</Text>
-          </View>
-        </View>
+        {/* The Wheel */}
+        <WheelOfYear
+          activeSeason="samhain"
+          size={280}
+          onSeasonPress={(key) => router.push(`/wheel/samhain`)}
+        />
 
-        <Text style={styles.title}>{currentSeason.name}</Text>
+        <Text style={styles.title}>Samhain</Text>
         <Text style={styles.subtitle}>Step Into the Unknown</Text>
 
         <Text style={styles.body}>
           Before the light returns there is the dark.{'\n'}
           Before rebirth there is dissolution.{'\n'}
-          Samhain is the exhale of the year.
+          Samhain is the exhale of the year.{'\n\n'}
+          The fields lie bare. The leaves fall.{'\n'}
+          The ancestors draw near.{'\n'}
+          The veil thins.
         </Text>
 
         <TouchableOpacity
@@ -75,100 +47,23 @@ export default function WheelTab() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: S.background,
-  },
-  logo: {
-    alignSelf: 'center',
-    paddingTop: 60,
-    paddingBottom: 4,
-  },
-  logoText: {
-    fontSize: 24,
-    color: S.accent,
-    opacity: 0.8,
-  },
-  scroll: {
-    paddingHorizontal: 24,
-    paddingBottom: 100,
-  },
-  wheelContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 240,
-    marginBottom: 24,
-  },
-  wheel: {
-    width: 200,
-    height: 200,
-    borderRadius: 100,
-    borderWidth: 1,
-    borderColor: 'rgba(139,105,20,0.3)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  seasonDot: {
-    position: 'absolute',
-    alignItems: 'center',
-  },
-  seasonDotActive: {},
-  seasonLabel: {
-    fontFamily: FONTS.body,
-    fontSize: 10,
-    color: S.text,
-    opacity: 0.3,
-  },
-  seasonLabelActive: {
-    opacity: 1,
-    color: S.glow,
-    fontSize: 12,
-    fontFamily: FONTS.bodyBold,
-  },
-  wheelCenter: {
-    fontSize: 28,
-    color: S.accent,
-    opacity: 0.6,
-  },
+  container: { flex: 1, backgroundColor: S.background },
+  scroll: { paddingHorizontal: 24, paddingBottom: 100, alignItems: 'center' },
   title: {
-    fontFamily: FONTS.heading,
-    fontSize: 24,
-    color: S.text,
-    textAlign: 'center',
-    textShadowColor: S.glow,
-    textShadowOffset: { width: 0, height: 0 },
-    textShadowRadius: 8,
+    fontFamily: FONTS.heading, fontSize: 26, color: S.text, textAlign: 'center', marginTop: 24,
+    textShadowColor: S.glow, textShadowOffset: { width: 0, height: 0 }, textShadowRadius: 10,
   },
   subtitle: {
-    fontFamily: FONTS.body,
-    fontSize: 14,
-    color: S.text,
-    opacity: 0.6,
-    textAlign: 'center',
-    marginTop: 8,
-    marginBottom: 32,
+    fontFamily: FONTS.body, fontSize: 14, color: S.text, opacity: 0.5,
+    textAlign: 'center', marginTop: 6, marginBottom: 28,
   },
   body: {
-    fontFamily: FONTS.body,
-    fontSize: 15,
-    color: S.text,
-    opacity: 0.8,
-    lineHeight: 26,
-    textAlign: 'center',
-    marginBottom: 32,
+    fontFamily: FONTS.body, fontSize: 15, color: S.text, opacity: 0.8,
+    lineHeight: 28, textAlign: 'center', marginBottom: 32,
   },
   cta: {
-    borderWidth: 1,
-    borderColor: S.glow,
-    borderRadius: 4,
-    padding: 18,
-    alignItems: 'center',
+    borderWidth: 1, borderColor: S.glow, borderRadius: 4, paddingVertical: 16, paddingHorizontal: 32,
     backgroundColor: 'rgba(155,89,182,0.08)',
   },
-  ctaText: {
-    fontFamily: FONTS.heading,
-    fontSize: 14,
-    color: S.text,
-    letterSpacing: 1,
-  },
+  ctaText: { fontFamily: FONTS.heading, fontSize: 14, color: S.text, letterSpacing: 1 },
 });
