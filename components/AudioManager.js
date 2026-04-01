@@ -23,21 +23,50 @@ export async function playBackgroundMusic() {
 
     const { sound } = await Audio.Sound.createAsync(
       require('../assets/audio/bg-music-loop.mp3'),
-      { isLooping: true, volume: 0 },
+      { isLooping: false, volume: 0 },
     );
     bgMusic = sound;
-    await bgMusic.playAsync();
 
-    // Smooth fade in
-    let vol = 0;
-    const fadeIn = setInterval(async () => {
-      vol += 0.01;
-      if (vol >= 0.25) {
-        clearInterval(fadeIn);
-        vol = 0.25;
-      }
-      try { await bgMusic.setVolumeAsync(vol); } catch (e) { clearInterval(fadeIn); }
-    }, 100);
+    // Manual loop with 30s hypnotic pause between plays
+    const loopWithPause = async () => {
+      if (!bgMusic) return;
+      try {
+        await bgMusic.setPositionAsync(0);
+        await bgMusic.playAsync();
+
+        // Fade in
+        let vol = 0;
+        await new Promise((resolve) => {
+          const fadeIn = setInterval(async () => {
+            vol += 0.01;
+            if (vol >= 0.25) {
+              clearInterval(fadeIn);
+              vol = 0.25;
+              resolve();
+            }
+            try { await bgMusic.setVolumeAsync(vol); } catch (e) { clearInterval(fadeIn); resolve(); }
+          }, 100);
+        });
+
+        // Wait for playback to finish
+        await new Promise((resolve) => {
+          bgMusic.setOnPlaybackStatusUpdate((status) => {
+            if (status.didJustFinish) {
+              bgMusic.setOnPlaybackStatusUpdate(null);
+              resolve();
+            }
+          });
+        });
+
+        // 30 second hypnotic silence
+        await new Promise((r) => setTimeout(r, 30000));
+
+        // Loop again
+        loopWithPause();
+      } catch (e) {}
+    };
+
+    loopWithPause();
   } catch (e) {
     console.log('BG music error:', e);
   }
