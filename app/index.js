@@ -31,11 +31,13 @@ export default function AppOpen() {
   return (
     <View style={styles.container}>
       {/* Sacred geometry wheel — slow spin */}
-      <Animated.Image
-        source={LOGO.wheelOnly}
-        style={[styles.wheel, { transform: [{ rotate: spin }] }]}
-        resizeMode="contain"
-      />
+      <View style={styles.wheelWrap}>
+        <Animated.Image
+          source={LOGO.wheelOnly}
+          style={[styles.wheelImage, { transform: [{ rotate: spin }] }]}
+          resizeMode="contain"
+        />
+      </View>
 
       {/* Text on top */}
       <Text style={styles.title}>INITIATION</Text>
@@ -61,9 +63,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
     paddingBottom: 140,
   },
-  wheel: {
+  wheelWrap: {
     position: 'absolute',
     top: -(WHEEL_SIZE * 0.35),
+    width: WHEEL_SIZE,
+    height: WHEEL_SIZE,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  wheelImage: {
     width: WHEEL_SIZE,
     height: WHEEL_SIZE,
     opacity: 0.4,
