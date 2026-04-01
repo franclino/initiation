@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
   },
   wheel: {
     position: 'absolute',
+    top: -WHEEL_SIZE * 0.25,
     width: WHEEL_SIZE,
     height: WHEEL_SIZE,
     opacity: 0.4,
