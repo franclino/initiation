@@ -88,8 +88,8 @@ export default function AppOpen() {
       {/* Moon phases along the arc + golden orb passing through */}
       <View style={styles.arcContainer}>
         {/* Moon phase symbols along the arc path */}
-        {['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌑'].map((moon, i) => {
-          const t = i / 7; // 0 to 1 across the arc
+        {['🌑', '🌒', '🌓', '🌔', '🌕', '🌔', '🌓', '🌒', '🌑'].map((moon, i) => {
+          const t = i / 8; // 0 to 1 across the arc
           const x = (t - 0.5) * ARC_WIDTH;
           const y = Math.sin(t * Math.PI) * ARC_HEIGHT * 1.35;
           return (
