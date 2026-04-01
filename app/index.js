@@ -6,7 +6,7 @@ import { useEffect, useRef } from 'react';
 import { FONTS, LOGO } from '../constants/theme';
 
 const { width: SCREEN_W } = Dimensions.get('window');
-const WHEEL_SIZE = SCREEN_W * 0.975;
+const WHEEL_SIZE = SCREEN_W * 1.95;
 
 export default function AppOpen() {
   const router = useRouter();
