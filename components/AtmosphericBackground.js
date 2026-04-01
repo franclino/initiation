@@ -1,8 +1,8 @@
 // Atmospheric background — season-specific floating particles and ambient effects
 // Uses built-in React Native Animated (no reanimated dependency)
-import { View, StyleSheet, Dimensions, Animated, Easing } from 'react-native';
+import { View, StyleSheet, Dimensions, Animated, Easing, Image } from 'react-native';
 import { useEffect, useRef, useMemo } from 'react';
-import { COLORS } from '../constants/theme';
+import { COLORS, LOGO } from '../constants/theme';
 
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
 
@@ -172,12 +172,51 @@ function AmbientGlow({ color }) {
   );
 }
 
+function SpinningWheel() {
+  const rotation = useRef(new Animated.Value(0)).current;
+  const wheelSize = SCREEN_W * 1.1;
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.timing(rotation, {
+        toValue: 1,
+        duration: 90000, // 90 seconds per full rotation
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }),
+    ).start();
+  }, []);
+
+  const spin = rotation.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
+  });
+
+  return (
+    <Animated.Image
+      source={LOGO.dark}
+      style={[
+        styles.spinningWheel,
+        {
+          width: wheelSize,
+          height: wheelSize,
+          transform: [{ rotate: spin }],
+        },
+      ]}
+      resizeMode="contain"
+    />
+  );
+}
+
 export default function AtmosphericBackground({ season = 'samhain', children }) {
   const config = SEASON_PARTICLES[season] || SEASON_PARTICLES.samhain;
   const bgColor = COLORS[season]?.background || '#000000';
 
   return (
     <View style={[styles.container, { backgroundColor: bgColor }]}>
+      {/* Big spinning sacred geometry wheel in background */}
+      <SpinningWheel />
+
       {/* Particles disabled for now — uncomment to re-enable
       <AmbientGlow color={config.glow} />
       {Array.from({ length: config.count }).map((_, i) => (
@@ -191,6 +230,14 @@ export default function AtmosphericBackground({ season = 'samhain', children }) 
 
 const styles = StyleSheet.create({
   container: { flex: 1, overflow: 'hidden' },
+  spinningWheel: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -(SCREEN_W * 1.1) / 2,
+    marginLeft: -(SCREEN_W * 1.1) / 2,
+    opacity: 0.15,
+  },
   ambientGlow: {
     position: 'absolute', bottom: -100, left: -50, right: -50,
     height: 300, borderRadius: 150,
