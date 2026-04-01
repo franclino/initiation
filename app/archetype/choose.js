@@ -1,121 +1,87 @@
-// SCREEN 4A — Choose an Archetype — Spinning Wheel of Fortune
-import { View, Text, StyleSheet, Animated, PanResponder, Dimensions, TouchableOpacity, Image } from 'react-native';
+// SCREEN 4A — Choose an Archetype — Spinning Wheel
+// Board-game style wheel. Portraits stay upright. Names below.
+import { View, Text, StyleSheet, PanResponder, Dimensions, TouchableOpacity, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useRef, useState, useCallback } from 'react';
 import * as Haptics from 'expo-haptics';
 import { COLORS, FONTS, WHEEL, GODDESS_IMAGES, ARCHETYPES } from '../../constants/theme';
 
-const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
-const WHEEL_RADIUS = SCREEN_W * 0.36;
-const CENTER_X = SCREEN_W / 2;
-const CENTER_Y = SCREEN_H * 0.38;
+const { width: SCREEN_W } = Dimensions.get('window');
+const WHEEL_RADIUS = SCREEN_W * 0.3;
+const NODE_SIZE = 68;
+const STEP = 45; // 360 / 8
 
 export default function ChooseArchetype() {
   const router = useRouter();
-  const rotationValue = useRef(0);
-  const rotation = useRef(new Animated.Value(0)).current;
-  const velocity = useRef(0);
-  const lastAngle = useRef(0);
-  const lastTickIndex = useRef(-1);
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [angleDeg, setAngleDeg] = useState(0);
+  const angleRef = useRef(0);
+  const lastY = useRef(0);
+  const velRef = useRef(0);
+  const animFrame = useRef(null);
+  const lastTickIdx = useRef(0);
 
-  // Calculate which season is at top based on rotation
-  const getTopSeasonIndex = useCallback((rot) => {
-    const normalized = ((rot % 360) + 360) % 360;
-    const index = Math.round(normalized / 45) % 8;
-    return index;
+  const getSelected = useCallback((a) => {
+    const norm = (((-a) % 360) + 360) % 360;
+    return Math.round(norm / STEP) % 8;
   }, []);
 
-  // Haptic tick when passing a season
-  const checkTick = useCallback((rot) => {
-    const idx = getTopSeasonIndex(rot);
-    if (idx !== lastTickIndex.current) {
-      lastTickIndex.current = idx;
-      setSelectedIndex(idx);
+  const tick = useCallback((a) => {
+    const idx = getSelected(a);
+    if (idx !== lastTickIdx.current) {
+      lastTickIdx.current = idx;
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
   }, []);
 
-  // Snap to nearest season
-  const snapToNearest = useCallback((currentRot) => {
-    const nearest = Math.round(currentRot / 45) * 45;
-    rotationValue.current = nearest;
-    Animated.spring(rotation, {
-      toValue: nearest,
-      friction: 8,
-      tension: 40,
-      useNativeDriver: true,
-    }).start(() => {
-      const idx = getTopSeasonIndex(nearest);
-      setSelectedIndex(idx);
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    });
-  }, []);
-
-  // Deceleration after release
-  const decelerate = useCallback((vel) => {
-    const target = rotationValue.current + vel * 800;
-    const snappedTarget = Math.round(target / 45) * 45;
-    rotationValue.current = snappedTarget;
-
-    Animated.timing(rotation, {
-      toValue: snappedTarget,
-      duration: Math.min(Math.abs(vel) * 1500, 3000),
-      useNativeDriver: true,
-    }).start(() => {
-      const idx = getTopSeasonIndex(snappedTarget);
-      setSelectedIndex(idx);
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    });
+  // Deceleration loop
+  const startDecel = useCallback(() => {
+    const loop = () => {
+      velRef.current *= 0.95; // friction
+      if (Math.abs(velRef.current) < 0.15) {
+        // Snap
+        const idx = getSelected(angleRef.current);
+        const target = -(idx * STEP);
+        angleRef.current = target;
+        setAngleDeg(target);
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+        return;
+      }
+      angleRef.current += velRef.current;
+      tick(angleRef.current);
+      setAngleDeg(angleRef.current);
+      animFrame.current = requestAnimationFrame(loop);
+    };
+    animFrame.current = requestAnimationFrame(loop);
   }, []);
 
   const panResponder = useRef(
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
-      onMoveShouldSetPanResponder: () => true,
-      onPanResponderGrant: (_, gesture) => {
-        rotation.stopAnimation((val) => {
-          rotationValue.current = val;
-          rotation.setValue(val);
-        });
-        lastAngle.current = Math.atan2(
-          gesture.y0 - CENTER_Y,
-          gesture.x0 - CENTER_X,
-        );
+      onMoveShouldSetPanResponder: (_, g) => Math.abs(g.dy) > 4,
+      onPanResponderGrant: () => {
+        if (animFrame.current) cancelAnimationFrame(animFrame.current);
+        lastY.current = 0;
+        velRef.current = 0;
       },
       onPanResponderMove: (_, gesture) => {
-        const currentAngle = Math.atan2(
-          gesture.moveY - CENTER_Y,
-          gesture.moveX - CENTER_X,
-        );
-        const delta = (currentAngle - lastAngle.current) * (180 / Math.PI);
-        lastAngle.current = currentAngle;
-        rotationValue.current += delta;
-        rotation.setValue(rotationValue.current);
-        velocity.current = delta;
-        checkTick(rotationValue.current);
+        const dy = gesture.dy - lastY.current;
+        lastY.current = gesture.dy;
+        const delta = dy * 0.35; // sensitivity
+        angleRef.current += delta;
+        velRef.current = delta;
+        tick(angleRef.current);
+        setAngleDeg(angleRef.current);
       },
       onPanResponderRelease: () => {
-        if (Math.abs(velocity.current) > 0.5) {
-          decelerate(velocity.current);
-        } else {
-          snapToNearest(rotationValue.current);
-        }
+        // Clamp velocity
+        velRef.current = Math.max(-6, Math.min(6, velRef.current));
+        startDecel();
       },
     }),
   ).current;
 
-  // Listen to rotation for tick sounds during deceleration
-  rotation.addListener(({ value }) => {
-    checkTick(value);
-  });
-
-  const spin = rotation.interpolate({
-    inputRange: [-360, 360],
-    outputRange: ['-360deg', '360deg'],
-  });
-
-  const selected = WHEEL.seasons[selectedIndex];
+  const selectedIdx = getSelected(angleDeg);
+  const selected = WHEEL.seasons[selectedIdx];
   const selectedColor = COLORS[selected.key] || COLORS.samhain;
   const selectedArchetype = ARCHETYPES[selected.key];
 
@@ -124,62 +90,83 @@ export default function ChooseArchetype() {
       <Text style={styles.title}>Choose an Archetype</Text>
       <Text style={styles.subtitle}>Spin the Wheel</Text>
 
-      {/* The spinning wheel */}
+      {/* Wheel */}
       <View style={styles.wheelArea} {...panResponder.panHandlers}>
-        <Animated.View style={[styles.wheelContainer, { transform: [{ rotate: spin }] }]}>
-          {WHEEL.seasons.map((season, i) => {
-            const angle = (i * 45 - 90) * (Math.PI / 180);
-            const x = Math.cos(angle) * WHEEL_RADIUS;
-            const y = Math.sin(angle) * WHEEL_RADIUS;
-            const seasonColor = COLORS[season.key] || COLORS.samhain;
-            const image = GODDESS_IMAGES[season.key];
-
-            return (
-              <View
-                key={season.key}
-                style={[
-                  styles.seasonNode,
-                  {
-                    transform: [
-                      { translateX: x },
-                      { translateY: y },
-                    ],
-                  },
-                ]}
-              >
-                <View style={[styles.seasonCircle, { borderColor: seasonColor.glow }]}>
-                  <Image source={image} style={styles.seasonImage} resizeMode="cover" />
-                </View>
-                <Text style={[styles.seasonName, { color: seasonColor.text }]}>
-                  {season.name}
-                </Text>
-              </View>
-            );
-          })}
-
-          {/* Center */}
-          <View style={styles.centerDot}>
-            <Text style={styles.centerSymbol}>⊛</Text>
+        {/* Connection lines */}
+        <View style={styles.wheelCenter}>
+          <View style={[styles.centerRing, { borderColor: selectedColor.glow }]}>
+            <Text style={[styles.centerText, { color: selectedColor.glow }]}>⊛</Text>
           </View>
-        </Animated.View>
+        </View>
 
-        {/* Selection indicator at top */}
+        {/* Season nodes — portraits stay upright */}
+        {WHEEL.seasons.map((season, i) => {
+          const nodeAngle = ((i * STEP + angleDeg - 90) * Math.PI) / 180;
+          const x = Math.cos(nodeAngle) * WHEEL_RADIUS;
+          const y = Math.sin(nodeAngle) * WHEEL_RADIUS;
+          const isSelected = i === selectedIdx;
+          const seasonColor = COLORS[season.key] || COLORS.samhain;
+          const image = GODDESS_IMAGES[season.key];
+
+          return (
+            <View
+              key={season.key}
+              style={[
+                styles.seasonNode,
+                {
+                  left: SCREEN_W / 2 - NODE_SIZE / 2 + x,
+                  top: WHEEL_RADIUS + 20 + y,
+                },
+              ]}
+            >
+              <TouchableOpacity
+                onPress={() => {
+                  const target = -(i * STEP);
+                  angleRef.current = target;
+                  setAngleDeg(target);
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                }}
+                activeOpacity={0.8}
+              >
+                <View style={[
+                  styles.portraitRing,
+                  { borderColor: isSelected ? seasonColor.glow : 'rgba(200,169,96,0.2)' },
+                  isSelected && styles.portraitSelected,
+                ]}>
+                  <Image source={image} style={styles.portrait} resizeMode="cover" />
+                </View>
+              </TouchableOpacity>
+              <Text style={[
+                styles.seasonName,
+                { color: isSelected ? seasonColor.glow : 'rgba(245,240,232,0.4)' },
+                isSelected && styles.seasonNameSelected,
+              ]}>
+                {season.name}
+              </Text>
+            </View>
+          );
+        })}
+
+        {/* Top indicator */}
         <View style={styles.indicator}>
-          <Text style={styles.indicatorArrow}>▼</Text>
+          <Text style={[styles.indicatorArrow, { color: selectedColor.glow }]}>▽</Text>
         </View>
       </View>
 
-      {/* Selected archetype info */}
+      {/* Selected info */}
       <View style={styles.selectedInfo}>
-        <Text style={[styles.selectedName, { color: selectedColor.glow }]}>
+        <Text style={[styles.selectedSeason, { color: selectedColor.glow }]}>
           {selected.name}
         </Text>
         <Text style={styles.selectedArchetype}>
           {selectedArchetype?.name}
         </Text>
+        <Text style={styles.selectedElement}>
+          {selectedArchetype?.element}
+        </Text>
 
         <TouchableOpacity
-          style={[styles.enterButton, { borderColor: selectedColor.glow }]}
+          style={[styles.enterButton, { borderColor: selectedColor.glow, backgroundColor: `${selectedColor.glow}15` }]}
           onPress={() => router.push(`/attunement/result?archetype=${selected.key}`)}
           activeOpacity={0.7}
         >
@@ -212,94 +199,107 @@ const styles = StyleSheet.create({
     opacity: 0.6,
     textAlign: 'center',
     marginTop: 4,
-    marginBottom: 16,
+    marginBottom: 8,
   },
   wheelArea: {
     width: SCREEN_W,
-    height: SCREEN_W * 0.85,
+    height: WHEEL_RADIUS * 2 + NODE_SIZE + 60,
+    position: 'relative',
+  },
+  wheelCenter: {
+    position: 'absolute',
+    left: SCREEN_W / 2 - 20,
+    top: WHEEL_RADIUS + 20 - 20,
+    zIndex: 5,
+  },
+  centerRing: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    borderWidth: 1,
+    backgroundColor: 'rgba(0,0,0,0.8)',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  wheelContainer: {
-    width: WHEEL_RADIUS * 2 + 100,
-    height: WHEEL_RADIUS * 2 + 100,
-    alignItems: 'center',
-    justifyContent: 'center',
+  centerText: {
+    fontSize: 18,
   },
   seasonNode: {
     position: 'absolute',
+    width: NODE_SIZE,
     alignItems: 'center',
+    zIndex: 2,
   },
-  seasonCircle: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
+  portraitRing: {
+    width: NODE_SIZE,
+    height: NODE_SIZE,
+    borderRadius: NODE_SIZE / 2,
     borderWidth: 2,
     overflow: 'hidden',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: '#111',
   },
-  seasonImage: {
-    width: 64,
-    height: 64,
+  portraitSelected: {
+    width: NODE_SIZE + 8,
+    height: NODE_SIZE + 8,
+    borderRadius: (NODE_SIZE + 8) / 2,
+    borderWidth: 3,
+    marginLeft: -4,
+  },
+  portrait: {
+    width: '100%',
+    height: '100%',
   },
   seasonName: {
     fontFamily: FONTS.bodyMedium,
-    fontSize: 11,
+    fontSize: 10,
     marginTop: 4,
     textAlign: 'center',
-    textShadowColor: 'rgba(0,0,0,0.9)',
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 4,
   },
-  centerDot: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: 'rgba(200,169,96,0.15)',
-    borderWidth: 1,
-    borderColor: 'rgba(200,169,96,0.3)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  centerSymbol: {
-    fontSize: 16,
-    color: '#c8a960',
+  seasonNameSelected: {
+    fontSize: 12,
+    fontFamily: FONTS.bodyBold,
   },
   indicator: {
     position: 'absolute',
-    top: 0,
-    alignItems: 'center',
+    top: -8,
+    left: SCREEN_W / 2 - 12,
+    zIndex: 10,
   },
   indicatorArrow: {
     fontSize: 24,
-    color: '#c8a960',
   },
   selectedInfo: {
-    flex: 1,
     alignItems: 'center',
     paddingHorizontal: 32,
-    paddingTop: 8,
+    paddingTop: 12,
   },
-  selectedName: {
+  selectedSeason: {
     fontFamily: FONTS.heading,
     fontSize: 28,
     textAlign: 'center',
   },
   selectedArchetype: {
     fontFamily: FONTS.body,
-    fontSize: 15,
+    fontSize: 16,
     color: '#f5f0e8',
-    opacity: 0.7,
+    opacity: 0.8,
     textAlign: 'center',
     marginTop: 4,
-    marginBottom: 28,
+  },
+  selectedElement: {
+    fontFamily: FONTS.body,
+    fontSize: 13,
+    color: '#f5f0e8',
+    opacity: 0.5,
+    textAlign: 'center',
+    marginTop: 2,
+    marginBottom: 24,
   },
   enterButton: {
     borderWidth: 1,
     borderRadius: 4,
     paddingVertical: 16,
     paddingHorizontal: 36,
-    backgroundColor: 'rgba(155,89,182,0.08)',
   },
   enterText: {
     fontFamily: FONTS.heading,
