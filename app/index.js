@@ -6,7 +6,7 @@ import { useEffect, useRef } from 'react';
 import { FONTS, LOGO } from '../constants/theme';
 
 const { width: SCREEN_W } = Dimensions.get('window');
-const WHEEL_SIZE = SCREEN_W * 0.75;
+const WHEEL_SIZE = SCREEN_W * 0.975;
 
 export default function AppOpen() {
   const router = useRouter();
@@ -16,7 +16,7 @@ export default function AppOpen() {
     Animated.loop(
       Animated.timing(rotation, {
         toValue: 1,
-        duration: 60000,
+        duration: 45000,
         easing: Easing.linear,
         useNativeDriver: true,
       }),
@@ -30,10 +30,10 @@ export default function AppOpen() {
 
   return (
     <View style={styles.container}>
-      {/* Sacred geometry wheel — steady, centered above text */}
+      {/* Sacred geometry wheel — slow spin */}
       <Animated.Image
         source={LOGO.wheelOnly}
-        style={styles.wheel}
+        style={[styles.wheel, { transform: [{ rotate: spin }] }]}
         resizeMode="contain"
       />
 
