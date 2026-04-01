@@ -178,10 +178,12 @@ export default function AtmosphericBackground({ season = 'samhain', children }) 
 
   return (
     <View style={[styles.container, { backgroundColor: bgColor }]}>
+      {/* Particles disabled for now — uncomment to re-enable
       <AmbientGlow color={config.glow} />
       {Array.from({ length: config.count }).map((_, i) => (
         <Particle key={i} config={config} />
       ))}
+      */}
       <View style={styles.content}>{children}</View>
     </View>
   );
