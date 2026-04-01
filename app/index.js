@@ -23,7 +23,7 @@ export default function AppOpen() {
     Animated.loop(
       Animated.timing(rotation, {
         toValue: 1,
-        duration: 45000,
+        duration: 38000,
         easing: Easing.linear,
         useNativeDriver: true,
       }),
