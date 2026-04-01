@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   },
   wheelWrap: {
     position: 'absolute',
-    top: -(WHEEL_SIZE * 0.35),
+    top: -(WHEEL_SIZE * 0.25),
     width: WHEEL_SIZE,
     height: WHEEL_SIZE,
     alignItems: 'center',
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     height: ARC_HEIGHT + ORB_SIZE + 14,
     alignItems: 'center',
     justifyContent: 'flex-start',
-    marginBottom: 40,
+    marginBottom: 70,
   },
   arcLine: {
     position: 'absolute',
