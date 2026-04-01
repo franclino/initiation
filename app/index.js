@@ -17,20 +17,15 @@ export default function AppOpen() {
   const router = useRouter();
   const rotation = useRef(new Animated.Value(0)).current;
   const orbProgress = useRef(new Animated.Value(0)).current;
-  const spinCount = useRef(0);
 
   useEffect(() => {
-    // Continuous wheel spin — never resets, just keeps going
-    const spinOnce = () => {
-      spinCount.current += 1;
-      Animated.timing(rotation, {
-        toValue: spinCount.current,
-        duration: 38000,
-        easing: Easing.linear,
-        useNativeDriver: true,
-      }).start(() => spinOnce());
-    };
-    spinOnce();
+    // Spin to a huge number so it never loops back
+    Animated.timing(rotation, {
+      toValue: 100,
+      duration: 38000 * 100,
+      easing: Easing.linear,
+      useNativeDriver: true,
+    }).start();
 
     // Orb traces the half-moon arc: left → up → center → up → right, then back
     Animated.loop(
@@ -52,8 +47,8 @@ export default function AppOpen() {
   }, []);
 
   const spin = rotation.interpolate({
-    inputRange: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    outputRange: ['0deg', '360deg', '720deg', '1080deg', '1440deg', '1800deg', '2160deg', '2520deg', '2880deg', '3240deg', '3600deg'],
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
   });
 
   // Orb X: left to right across the arc
