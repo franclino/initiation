@@ -85,11 +85,39 @@ export default function AppOpen() {
         />
       </View>
 
-      {/* Half-moon arc + orb above INITIATION */}
+      {/* Moon phases along the arc + golden orb passing through */}
       <View style={styles.arcContainer}>
-        {/* The thin arc line */}
-        <View style={styles.arcLine} />
-        {/* The orbiting circle */}
+        {/* Moon phase symbols along the arc path */}
+        {['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘'].map((moon, i) => {
+          const t = i / 7; // 0 to 1 across the arc
+          const x = (t - 0.5) * ARC_WIDTH;
+          const y = Math.sin(t * Math.PI) * ARC_HEIGHT * 1.35;
+          return (
+            <Animated.Text
+              key={i}
+              style={[
+                styles.moonPhase,
+                {
+                  left: ARC_WIDTH / 2 + x - 8,
+                  top: y - 2,
+                  // Pulse: each moon glows when the orb is near it
+                  opacity: orbProgress.interpolate({
+                    inputRange: [
+                      Math.max(0, t - 0.1),
+                      t,
+                      Math.min(1, t + 0.1),
+                    ].sort((a, b) => a - b),
+                    outputRange: [0.15, 0.7, 0.15],
+                    extrapolate: 'clamp',
+                  }),
+                },
+              ]}
+            >
+              {moon}
+            </Animated.Text>
+          );
+        })}
+        {/* The golden orb */}
         <Animated.View
           style={[
             styles.orb,
@@ -143,23 +171,15 @@ const styles = StyleSheet.create({
   },
   arcContainer: {
     width: ARC_WIDTH,
-    height: ARC_HEIGHT + ORB_SIZE + 14,
+    height: ARC_HEIGHT * 1.5 + ORB_SIZE + 20,
     alignItems: 'center',
     justifyContent: 'flex-start',
     marginBottom: 70,
+    position: 'relative',
   },
-  arcLine: {
+  moonPhase: {
     position: 'absolute',
-    top: 0,
-    width: ARC_WIDTH,
-    height: ARC_HEIGHT * 2,
-    borderBottomLeftRadius: ARC_WIDTH / 2.5,
-    borderBottomRightRadius: ARC_WIDTH / 2.5,
-    borderBottomWidth: 1,
-    borderLeftWidth: 0.5,
-    borderRightWidth: 0.5,
-    borderColor: 'rgba(200,169,96,0.18)',
-    borderTopWidth: 0,
+    fontSize: 16,
   },
   orb: {
     width: ORB_SIZE,
