@@ -1,60 +1,43 @@
 // Sacred geometry logo with slow breathing/pulsing animation
-// Represents the interconnected living energy of the wheel
-import { TouchableOpacity, StyleSheet } from 'react-native';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withRepeat,
-  withSequence,
-  withTiming,
-  Easing,
-} from 'react-native-reanimated';
-import { useEffect } from 'react';
+// Uses built-in React Native Animated (no reanimated dependency)
+import { TouchableOpacity, StyleSheet, Animated, Easing } from 'react-native';
+import { useEffect, useRef } from 'react';
 import { useRouter } from 'expo-router';
 import { LOGO } from '../constants/theme';
 
-export default function BreathingLogo({ size = 48, glowColor = 'rgba(200,169,96,0.3)', onPress, style }) {
+export default function BreathingLogo({ size = 48, onPress, style }) {
   const router = useRouter();
-  const scale = useSharedValue(1);
-  const opacity = useSharedValue(0.8);
-  const rotation = useSharedValue(0);
+  const scale = useRef(new Animated.Value(1)).current;
+  const opacity = useRef(new Animated.Value(0.8)).current;
+  const rotation = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    // Subtle breathing pulse
-    scale.value = withRepeat(
-      withSequence(
-        withTiming(1.04, { duration: 3000, easing: Easing.inOut(Easing.sin) }),
-        withTiming(0.97, { duration: 3000, easing: Easing.inOut(Easing.sin) }),
-      ),
-      -1,
-      false,
-    );
+    // Breathing pulse
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(scale, { toValue: 1.04, duration: 3000, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
+        Animated.timing(scale, { toValue: 0.97, duration: 3000, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
+      ]),
+    ).start();
 
-    // Gentle opacity pulse
-    opacity.value = withRepeat(
-      withSequence(
-        withTiming(1, { duration: 3500, easing: Easing.inOut(Easing.sin) }),
-        withTiming(0.7, { duration: 3500, easing: Easing.inOut(Easing.sin) }),
-      ),
-      -1,
-      false,
-    );
+    // Opacity pulse
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(opacity, { toValue: 1, duration: 3500, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
+        Animated.timing(opacity, { toValue: 0.7, duration: 3500, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
+      ]),
+    ).start();
 
-    // Very slow rotation — the wheel turns
-    rotation.value = withRepeat(
-      withTiming(360, { duration: 120000, easing: Easing.linear }), // 2 min full rotation
-      -1,
-      false,
-    );
+    // Very slow rotation
+    Animated.loop(
+      Animated.timing(rotation, { toValue: 1, duration: 120000, easing: Easing.linear, useNativeDriver: true }),
+    ).start();
   }, []);
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [
-      { scale: scale.value },
-      { rotate: `${rotation.value}deg` },
-    ],
-    opacity: opacity.value,
-  }));
+  const spin = rotation.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
+  });
 
   const handlePress = onPress || (() => router.push('/home'));
 
@@ -64,7 +47,7 @@ export default function BreathingLogo({ size = 48, glowColor = 'rgba(200,169,96,
         source={LOGO.dark}
         style={[
           { width: size, height: size },
-          animatedStyle,
+          { transform: [{ scale }, { rotate: spin }], opacity },
         ]}
         resizeMode="contain"
       />
