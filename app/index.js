@@ -62,10 +62,10 @@ export default function AppOpen() {
     outputRange: [-(ARC_WIDTH / 2), ARC_WIDTH / 2],
   });
 
-  // Orb Y: bull's horns — high at edges, dips to center
+  // Orb Y: dips down into the horn
   const orbY = orbProgress.interpolate({
     inputRange: [0, 0.15, 0.5, 0.85, 1],
-    outputRange: [ARC_HEIGHT * 1.35, ARC_HEIGHT * 0.75, 0, ARC_HEIGHT * 0.75, ARC_HEIGHT * 1.35],
+    outputRange: [0, ARC_HEIGHT * 0.6, ARC_HEIGHT * 1.35, ARC_HEIGHT * 0.6, 0],
   });
 
   // Orb glow pulses as it moves
@@ -91,7 +91,7 @@ export default function AppOpen() {
         {['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌑'].map((moon, i) => {
           const t = i / 7; // 0 to 1 across the arc
           const x = (t - 0.5) * ARC_WIDTH;
-          const y = -Math.sin(t * Math.PI) * ARC_HEIGHT * 1.35 + ARC_HEIGHT * 1.35;
+          const y = Math.sin(t * Math.PI) * ARC_HEIGHT * 1.35;
           return (
             <Animated.Text
               key={i}
