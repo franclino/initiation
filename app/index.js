@@ -6,7 +6,7 @@ import { useEffect, useRef } from 'react';
 import { FONTS, LOGO } from '../constants/theme';
 
 const { width: SCREEN_W } = Dimensions.get('window');
-const WHEEL_SIZE = SCREEN_W * 1.3;
+const WHEEL_SIZE = SCREEN_W * 0.75;
 
 export default function AppOpen() {
   const router = useRouter();
@@ -30,13 +30,10 @@ export default function AppOpen() {
 
   return (
     <View style={styles.container}>
-      {/* Big spinning wheel */}
+      {/* Sacred geometry wheel — steady, centered above text */}
       <Animated.Image
         source={LOGO.wheelOnly}
-        style={[
-          styles.wheel,
-          { transform: [{ rotate: spin }] },
-        ]}
+        style={styles.wheel}
         resizeMode="contain"
       />
 
@@ -64,11 +61,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
   },
   wheel: {
-    position: 'absolute',
-    top: -WHEEL_SIZE * 0.25,
     width: WHEEL_SIZE,
     height: WHEEL_SIZE,
     opacity: 0.4,
+    marginBottom: 40,
   },
   title: {
     fontFamily: FONTS.headingLight,
