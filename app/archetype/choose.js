@@ -36,14 +36,22 @@ export default function ChooseArchetype() {
   // Deceleration loop
   const startDecel = useCallback(() => {
     const loop = () => {
-      velRef.current *= 0.95; // friction
-      if (Math.abs(velRef.current) < 0.15) {
-        // Snap
+      velRef.current *= 0.96; // friction
+      if (Math.abs(velRef.current) < 0.12) {
+        // Smooth swoop to nearest position
         const idx = getSelected(angleRef.current);
         const target = -(idx * STEP);
-        angleRef.current = target;
-        setAngleDeg(target);
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+        const diff = target - angleRef.current;
+        // Ease into the snap over multiple frames
+        if (Math.abs(diff) < 0.3) {
+          angleRef.current = target;
+          setAngleDeg(target);
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+          return;
+        }
+        angleRef.current += diff * 0.12;
+        setAngleDeg(angleRef.current);
+        animFrame.current = requestAnimationFrame(loop);
         return;
       }
       angleRef.current += velRef.current;
