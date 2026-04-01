@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   },
   wheelWrap: {
     position: 'absolute',
-    top: -(WHEEL_SIZE * 0.35),
+    top: -(WHEEL_SIZE * 0.45),
     left: (SCREEN_W - WHEEL_SIZE) / 2,
     width: WHEEL_SIZE,
     height: WHEEL_SIZE,
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     paddingHorizontal: 24,
-    paddingBottom: 60,
+    paddingBottom: 80,
   },
   title: {
     fontFamily: FONTS.heading,
