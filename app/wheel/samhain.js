@@ -2,7 +2,7 @@
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { COLORS, FONTS } from '../../constants/theme';
-import AtmosphericBackground from '../../components/AtmosphericBackground';
+import PsychedelicBackground from '../../components/PsychedelicBackground';
 import GoddessCard from '../../components/GoddessCard';
 
 const S = COLORS.samhain;
@@ -11,7 +11,7 @@ export default function SamhainScreen() {
   const router = useRouter();
 
   return (
-    <AtmosphericBackground season="samhain">
+    <PsychedelicBackground season="samhain">
 
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
         {/* Goddess image */}
@@ -103,7 +103,7 @@ export default function SamhainScreen() {
           <Text style={styles.ctaText}>Explore the Archetype</Text>
         </TouchableOpacity>
       </ScrollView>
-    </AtmosphericBackground>
+    </PsychedelicBackground>
   );
 }
 

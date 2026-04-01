@@ -2,6 +2,7 @@
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { COLORS, FONTS, PRICING } from '../../constants/theme';
+import PsychedelicBackground from '../../components/PsychedelicBackground';
 import GoddessCard from '../../components/GoddessCard';
 
 const S = COLORS.samhain;
@@ -10,7 +11,7 @@ export default function SamhainThreshold() {
   const router = useRouter();
 
   return (
-    <View style={styles.container}>
+    <PsychedelicBackground season="samhain">
 
       <ScrollView
         contentContainerStyle={styles.scroll}
@@ -68,14 +69,13 @@ export default function SamhainThreshold() {
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </View>
+    </PsychedelicBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: S.background,
   },
   logo: {
     alignSelf: 'center',

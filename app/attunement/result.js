@@ -2,7 +2,7 @@
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { COLORS, FONTS, PRICING, GODDESS_IMAGES, LOGO } from '../../constants/theme';
-import AtmosphericBackground from '../../components/AtmosphericBackground';
+import PsychedelicBackground from '../../components/PsychedelicBackground';
 import GoddessCard from '../../components/GoddessCard';
 
 const ARCHETYPE_INFO = {
@@ -29,7 +29,7 @@ export default function AttunementResult() {
   const C = info.colors;
 
   return (
-    <AtmosphericBackground season={key}>
+    <PsychedelicBackground season={key}>
 
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
         {/* Goddess card */}
@@ -87,7 +87,7 @@ export default function AttunementResult() {
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </AtmosphericBackground>
+    </PsychedelicBackground>
   );
 }
 
