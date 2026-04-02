@@ -2,6 +2,7 @@
 import { Tabs } from 'expo-router';
 import { View, Text, StyleSheet } from 'react-native';
 import { COLORS, FONTS } from '../../constants/theme';
+import { useThemeMode } from "../../constants/ThemeContext";
 
 const S = COLORS.samhain;
 

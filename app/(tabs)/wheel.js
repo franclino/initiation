@@ -2,6 +2,7 @@
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { COLORS, FONTS } from '../../constants/theme';
+import { useThemeMode } from "../../constants/ThemeContext";
 import AtmosphericBackground from '../../components/AtmosphericBackground';
 import WheelOfYear from '../../components/WheelOfYear';
 

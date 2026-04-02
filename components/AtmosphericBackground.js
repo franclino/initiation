@@ -3,6 +3,7 @@
 import { View, StyleSheet, Dimensions, Animated, Easing, Image } from 'react-native';
 import { useEffect, useRef, useMemo } from 'react';
 import { COLORS, LOGO } from '../constants/theme';
+import { useThemeMode } from '../constants/ThemeContext';
 
 const STARFIELD = require('../assets/images/starfield.jpg');
 const WHEEL_SIZE = SCREEN_W * 1.5;
@@ -175,7 +176,7 @@ function AmbientGlow({ color }) {
   );
 }
 
-function SpinningWheel() {
+function SpinningWheel({ theme }) {
   const rotation = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -196,7 +197,7 @@ function SpinningWheel() {
 
   return (
     <Animated.Image
-      source={LOGO.wheelOnly}
+      source={theme?.wheelImage || LOGO.wheelOnly}
       style={[
         styles.spinningWheel,
         {
@@ -212,15 +213,16 @@ function SpinningWheel() {
 
 export default function AtmosphericBackground({ season = 'samhain', children }) {
   const config = SEASON_PARTICLES[season] || SEASON_PARTICLES.samhain;
-  const bgColor = COLORS[season]?.background || '#000000';
+  const theme = useThemeMode();
+  const bgColor = theme.isDark ? (COLORS[season]?.background || '#000000') : theme.bg;
 
   return (
     <View style={[styles.container, { backgroundColor: bgColor }]}>
       {/* Starfield everywhere */}
-      <Image source={STARFIELD} style={styles.starfield} resizeMode="cover" />
+      <Image source={STARFIELD} style={[styles.starfield, { opacity: theme.starfieldOpacity }]} resizeMode="cover" />
 
       {/* Big spinning sacred geometry wheel in background */}
-      <SpinningWheel />
+      <SpinningWheel theme={theme} />
 
       {/* Particles disabled for now — uncomment to re-enable
       <AmbientGlow color={config.glow} />
@@ -243,7 +245,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: (SCREEN_H - WHEEL_SIZE) / 2,
     left: (SCREEN_W - WHEEL_SIZE) / 2,
-    opacity: 0.35,
+    opacity: 0.3,
   },
   ambientGlow: {
     position: 'absolute', bottom: -100, left: -50, right: -50,

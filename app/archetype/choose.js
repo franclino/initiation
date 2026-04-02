@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router';
 import { useRef, useState, useCallback } from 'react';
 import * as Haptics from 'expo-haptics';
 import { COLORS, FONTS, WHEEL, GODDESS_IMAGES, ARCHETYPES } from '../../constants/theme';
+import { useThemeMode } from '../../constants/ThemeContext';
 import { playWheelTick } from '../../components/AudioManager';
 
 const { width: SCREEN_W } = Dimensions.get('window');
@@ -14,6 +15,7 @@ const STEP = 45; // 360 / 8
 
 export default function ChooseArchetype() {
   const router = useRouter();
+  const theme = useThemeMode();
   const [angleDeg, setAngleDeg] = useState(0);
   const angleRef = useRef(0);
   const lastY = useRef(0);
@@ -96,9 +98,9 @@ export default function ChooseArchetype() {
   const selectedArchetype = ARCHETYPES[selected.key];
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Choose an Archetype</Text>
-      <Text style={styles.subtitle}>Spin the Wheel</Text>
+    <View style={[styles.container, { backgroundColor: theme.bg }]}>
+      <Text style={[styles.title, { color: theme.text }]}>Choose an Archetype</Text>
+      <Text style={[styles.subtitle, { color: theme.textSoft }]}>Spin the Wheel</Text>
 
       {/* Wheel */}
       <View style={styles.wheelArea} {...panResponder.panHandlers}>
@@ -168,10 +170,10 @@ export default function ChooseArchetype() {
         <Text style={[styles.selectedSeason, { color: selectedColor.glow }]}>
           {selected.name}
         </Text>
-        <Text style={styles.selectedArchetype}>
+        <Text style={[styles.selectedArchetype, { color: theme.textSoft }]}>
           {selectedArchetype?.name}
         </Text>
-        <Text style={styles.selectedElement}>
+        <Text style={[styles.selectedElement, { color: theme.textSoft }]}>
           {selectedArchetype?.element}
         </Text>
 

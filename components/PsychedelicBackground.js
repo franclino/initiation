@@ -2,6 +2,7 @@
 import { View, Image, StyleSheet, Dimensions, Animated, Easing } from 'react-native';
 import { useEffect, useRef } from 'react';
 import { GODDESS_IMAGES, COLORS } from '../constants/theme';
+import { useThemeMode } from '../constants/ThemeContext';
 
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
 const STARFIELD = require('../assets/images/starfield.jpg');
@@ -22,10 +23,12 @@ export default function PsychedelicBackground({ season = 'samhain', children }) 
     ).start();
   }, []);
 
+  const theme = useThemeMode();
+
   return (
-    <View style={[styles.container, { backgroundColor: '#000000' }]}>
+    <View style={[styles.container, { backgroundColor: theme.bg }]}>
       {/* Starfield base — always visible */}
-      <Image source={STARFIELD} style={styles.starfield} resizeMode="cover" />
+      <Image source={STARFIELD} style={[styles.starfield, { opacity: theme.starfieldOpacity }]} resizeMode="cover" />
 
       {/* Goddess image — very subtle, just a hint/outline */}
       <Animated.Image

@@ -2,6 +2,7 @@
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, TextInput, Alert } from 'react-native';
 import { useState } from 'react';
 import { COLORS, FONTS } from '../../constants/theme';
+import { useThemeMode } from "../../constants/ThemeContext";
 
 const S = COLORS.samhain;
 

@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-nati
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { COLORS, FONTS } from '../../constants/theme';
+import { useThemeMode } from "../../constants/ThemeContext";
 
 const S = COLORS.samhain;
 

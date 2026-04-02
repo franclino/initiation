@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Animated, Easing, Dimensions 
 import { useRouter } from 'expo-router';
 import { useEffect, useRef } from 'react';
 import { COLORS, FONTS, LOGO } from '../constants/theme';
+import { useThemeMode } from '../constants/ThemeContext';
 import MoonPhaseHorns from '../components/MoonPhaseHorns';
 
 const STARFIELD = require('../assets/images/starfield.jpg');
@@ -11,7 +12,7 @@ const STARFIELD = require('../assets/images/starfield.jpg');
 const { width: SCREEN_W } = Dimensions.get('window');
 const WHEEL_SIZE = SCREEN_W * 1.95;
 
-function SacredCard({ symbol, title, subtitle, onPress, delay, glowColor }) {
+function SacredCard({ symbol, title, subtitle, onPress, delay, glowColor, theme }) {
   const fadeIn = useRef(new Animated.Value(0)).current;
   const slideUp = useRef(new Animated.Value(30)).current;
   const glowPulse = useRef(new Animated.Value(0.3)).current;
@@ -38,12 +39,12 @@ function SacredCard({ symbol, title, subtitle, onPress, delay, glowColor }) {
   return (
     <Animated.View style={{ opacity: fadeIn, transform: [{ translateY: slideUp }] }}>
       <TouchableOpacity onPress={onPress} activeOpacity={0.7}>
-        <Animated.View style={[styles.card, { borderColor }]}>
-          <View style={styles.ornamentLine} />
-          <Text style={styles.cardSymbol}>{symbol}</Text>
-          <Text style={styles.cardTitle}>{title}</Text>
-          <Text style={styles.cardSub}>{subtitle}</Text>
-          <View style={[styles.ornamentLine, styles.ornamentBottom]} />
+        <Animated.View style={[styles.card, { borderColor, backgroundColor: theme?.card }]}>
+          <View style={[styles.ornamentLine, { backgroundColor: theme?.ornament }]} />
+          <Text style={[styles.cardSymbol, { color: theme?.accent }]}>{symbol}</Text>
+          <Text style={[styles.cardTitle, { color: theme?.text }]}>{title}</Text>
+          <Text style={[styles.cardSub, { color: theme?.textSoft }]}>{subtitle}</Text>
+          <View style={[styles.ornamentLine, styles.ornamentBottom, { backgroundColor: theme?.ornament }]} />
         </Animated.View>
       </TouchableOpacity>
     </Animated.View>
@@ -52,6 +53,7 @@ function SacredCard({ symbol, title, subtitle, onPress, delay, glowColor }) {
 
 export default function LookWithin() {
   const router = useRouter();
+  const theme = useThemeMode();
   const rotation = useRef(new Animated.Value(0)).current;
   const titleFade = useRef(new Animated.Value(0)).current;
 
@@ -72,15 +74,15 @@ export default function LookWithin() {
   });
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.bg }]}>
       {/* Starfield */}
-      <Animated.Image source={STARFIELD} style={styles.starfield} resizeMode="cover" />
+      <Animated.Image source={STARFIELD} style={[styles.starfield, { opacity: theme.starfieldOpacity }]} resizeMode="cover" />
 
       {/* Spinning wheel */}
       <View style={styles.wheelWrap}>
         <Animated.Image
-          source={LOGO.wheelOnly}
-          style={[styles.wheelImage, { transform: [{ rotate: spin }] }]}
+          source={theme.wheelImage}
+          style={[styles.wheelImage, { transform: [{ rotate: spin }], opacity: theme.wheelOpacity }]}
           resizeMode="contain"
         />
       </View>
@@ -90,8 +92,8 @@ export default function LookWithin() {
         {/* Moon phase horns */}
         <MoonPhaseHorns />
 
-        <Animated.Text style={[styles.title, { opacity: titleFade }]}>Look Within</Animated.Text>
-        <Animated.Text style={[styles.subtitle, { opacity: titleFade }]}>Sacred Archetypal Journey</Animated.Text>
+        <Animated.Text style={[styles.title, { opacity: titleFade, color: theme.text }]}>Look Within</Animated.Text>
+        <Animated.Text style={[styles.subtitle, { opacity: titleFade, color: theme.textSoft }]}>Sacred Archetypal Journey</Animated.Text>
 
         <SacredCard
           symbol="⊛"
@@ -99,7 +101,8 @@ export default function LookWithin() {
           subtitle="Select directly from the Wheel"
           onPress={() => router.push('/archetype/choose')}
           delay={300}
-          glowColor="rgba(155,89,182,0.5)"
+          glowColor={theme.glow}
+          theme={theme}
         />
 
         <SacredCard
@@ -108,7 +111,8 @@ export default function LookWithin() {
           subtitle="Discover which archetype is most present"
           onPress={() => router.push('/attunement/start')}
           delay={600}
-          glowColor="rgba(200,169,96,0.5)"
+          glowColor={theme.accent}
+          theme={theme}
         />
       </View>
     </View>

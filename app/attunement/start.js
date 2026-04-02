@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Animated, Easing,
 import { useRouter } from 'expo-router';
 import { useState, useRef, useEffect } from 'react';
 import { COLORS, FONTS, LOGO } from '../../constants/theme';
+import { useThemeMode } from '../../constants/ThemeContext';
 import MoonPhaseHorns from '../../components/MoonPhaseHorns';
 
 const { width: SCREEN_W } = Dimensions.get('window');
@@ -133,6 +134,7 @@ function resolveArchetype(scores) {
 
 export default function AttunementStart() {
   const router = useRouter();
+  const theme = useThemeMode();
   const [slideIndex, setSlideIndex] = useState(0);
   const [scores, setScores] = useState({ 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 });
   const rotation = useRef(new Animated.Value(0)).current;
@@ -166,14 +168,14 @@ export default function AttunementStart() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.bg }]}>
       {/* Starfield */}
-      <Image source={STARFIELD} style={styles.starfield} resizeMode="cover" />
+      <Image source={STARFIELD} style={[styles.starfield, { opacity: theme.starfieldOpacity }]} resizeMode="cover" />
 
       {/* Spinning wheel */}
       <View style={styles.wheelWrap}>
         <Animated.Image
-          source={LOGO.wheelOnly}
+          source={theme.wheelImage}
           style={[styles.wheelImage, { transform: [{ rotate: spin }] }]}
           resizeMode="contain"
         />
@@ -184,8 +186,8 @@ export default function AttunementStart() {
         {/* Moon phase horns */}
         <MoonPhaseHorns />
 
-        <Text style={styles.slideCount}>{slideIndex + 1} / 7</Text>
-        <Text style={styles.prompt}>{slide.prompt}</Text>
+        <Text style={[styles.slideCount, { color: theme.accent }]}>{slideIndex + 1} / 7</Text>
+        <Text style={[styles.prompt, { color: theme.text }]}>{slide.prompt}</Text>
 
         <ScrollView
           contentContainerStyle={styles.options}
@@ -194,13 +196,13 @@ export default function AttunementStart() {
           {slide.options.map((opt, i) => (
             <TouchableOpacity
               key={opt.label}
-              style={styles.optionCard}
+              style={[styles.optionCard, { borderColor: theme.cardBorder, backgroundColor: theme.card }]}
               onPress={() => handleSelect(opt.value)}
               activeOpacity={0.7}
             >
-              <View style={styles.ornamentLine} />
-              <Text style={styles.optionText}>{opt.label}</Text>
-              <View style={[styles.ornamentLine, styles.ornamentBottom]} />
+              <View style={[styles.ornamentLine, { backgroundColor: theme.ornament }]} />
+              <Text style={[styles.optionText, { color: theme.text }]}>{opt.label}</Text>
+              <View style={[styles.ornamentLine, styles.ornamentBottom, { backgroundColor: theme.ornament }]} />
             </TouchableOpacity>
           ))}
         </ScrollView>
