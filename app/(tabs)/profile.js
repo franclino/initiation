@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-nati
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { COLORS, FONTS } from '../../constants/theme';
+import { useThemeMode } from '../../constants/ThemeContext';
 
 const S = COLORS.samhain;
 
@@ -27,6 +28,7 @@ const REPRESENTATIVES = [
 export default function ProfileTab() {
   const router = useRouter();
   const [name] = useState('Seeker');
+  const { isDark, toggle } = useThemeMode();
 
   return (
     <View style={styles.container}>
@@ -84,6 +86,9 @@ export default function ProfileTab() {
         {/* Settings */}
         <Text style={[styles.sectionTitle, { marginTop: 32 }]}>SETTINGS</Text>
         <View style={styles.settingsGroup}>
+          <TouchableOpacity style={styles.settingRow} onPress={toggle} activeOpacity={0.7}>
+            <Text style={styles.settingText}>{isDark ? '☽ Dark Mode' : '☀ Light Mode'}</Text>
+          </TouchableOpacity>
           <TouchableOpacity style={styles.settingRow} activeOpacity={0.7}>
             <Text style={styles.settingText}>Edit Name</Text>
           </TouchableOpacity>
