@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router';
 import { useEffect, useRef } from 'react';
 import { FONTS, LOGO } from '../constants/theme';
 import { playBackgroundMusic, playIntroVoice } from '../components/AudioManager';
+import FairyDust from '../components/FairyDust';
 
 const { width: SCREEN_W } = Dimensions.get('window');
 const WHEEL_SIZE = SCREEN_W * 1.95;
@@ -84,6 +85,9 @@ export default function AppOpen() {
           resizeMode="contain"
         />
       </View>
+
+      {/* Fairy dust sparkles */}
+      <FairyDust count={14} color="#c8a960" />
 
       {/* Moon phases along the arc + golden orb passing through */}
       <View style={styles.arcContainer}>
