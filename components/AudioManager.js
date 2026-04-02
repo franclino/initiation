@@ -62,6 +62,9 @@ export async function playBackgroundMusic() {
         // 30 second hypnotic silence
         await new Promise((r) => setTimeout(r, 30000));
 
+        // Voice comes back at the start of each loop
+        playIntroVoice();
+
         // Loop again
         loopWithPause();
       } catch (e) {}
