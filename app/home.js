@@ -11,7 +11,7 @@ const STARFIELD = require('../assets/images/starfield.jpg');
 const { width: SCREEN_W } = Dimensions.get('window');
 const WHEEL_SIZE = SCREEN_W * 1.95;
 
-function SacredCard({ symbol, title, subtitle, onPress, delay, glowColor, muted }) {
+function SacredCard({ symbol, title, subtitle, onPress, delay, glowColor, muted, theme }) {
   const fadeIn = useRef(new Animated.Value(0)).current;
   const slideUp = useRef(new Animated.Value(30)).current;
   const glowPulse = useRef(new Animated.Value(0.3)).current;
@@ -34,29 +34,23 @@ function SacredCard({ symbol, title, subtitle, onPress, delay, glowColor, muted 
     }
   }, []);
 
+  const t = theme || {};
   const borderColor = muted
-    ? 'rgba(200,169,96,0.15)'
+    ? (t.cardBorder || 'rgba(200,169,96,0.15)')
     : glowPulse.interpolate({
         inputRange: [0.3, 0.6],
-        outputRange: [`rgba(200,169,96,0.25)`, glowColor || 'rgba(200,169,96,0.5)'],
+        outputRange: [t.cardBorder || 'rgba(200,169,96,0.25)', glowColor || 'rgba(200,169,96,0.5)'],
       });
 
   return (
     <Animated.View style={{ opacity: fadeIn, transform: [{ translateY: slideUp }] }}>
       <TouchableOpacity onPress={onPress} activeOpacity={0.7}>
-        <Animated.View style={[styles.card, muted && styles.cardMuted, { borderColor }]}>
-          {/* Ornamental top line */}
-          <View style={[styles.ornamentLine, { backgroundColor: muted ? 'rgba(200,169,96,0.1)' : 'rgba(200,169,96,0.2)' }]} />
-
-          {/* Symbol */}
-          <Text style={[styles.cardSymbol, muted && { opacity: 0.3 }]}>{symbol}</Text>
-
-          {/* Text */}
-          <Text style={[styles.cardTitle, muted && styles.mutedText]}>{title}</Text>
-          <Text style={[styles.cardSub, muted && styles.mutedText]}>{subtitle}</Text>
-
-          {/* Ornamental bottom line */}
-          <View style={[styles.ornamentLine, styles.ornamentBottom, { backgroundColor: muted ? 'rgba(200,169,96,0.1)' : 'rgba(200,169,96,0.2)' }]} />
+        <Animated.View style={[styles.card, { backgroundColor: t.card, borderColor }, muted && { opacity: 0.4 }]}>
+          <View style={[styles.ornamentLine, { backgroundColor: t.ornament }]} />
+          <Text style={[styles.cardSymbol, { color: t.accent }]}>{symbol}</Text>
+          <Text style={[styles.cardTitle, { color: t.text }]}>{title}</Text>
+          <Text style={[styles.cardSub, { color: t.textSoft }]}>{subtitle}</Text>
+          <View style={[styles.ornamentLine, styles.ornamentBottom, { backgroundColor: t.ornament }]} />
         </Animated.View>
       </TouchableOpacity>
     </Animated.View>
@@ -114,7 +108,8 @@ export default function HomeScreen() {
           subtitle="Enter the current season and its mysteries"
           onPress={() => router.push('/(tabs)/wheel')}
           delay={300}
-          glowColor="rgba(155,89,182,0.5)"
+          glowColor={theme.glow}
+          theme={theme}
         />
 
         <SacredCard
@@ -123,7 +118,8 @@ export default function HomeScreen() {
           subtitle="Sacred Archetypal Journey"
           onPress={() => router.push('/look-within')}
           delay={600}
-          glowColor="rgba(200,169,96,0.5)"
+          glowColor={theme.accent}
+          theme={theme}
         />
 
         <SacredCard
@@ -133,6 +129,7 @@ export default function HomeScreen() {
           onPress={() => router.push('/(tabs)/profile')}
           delay={900}
           muted
+          theme={theme}
         />
       </View>
     </View>
