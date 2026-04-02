@@ -31,6 +31,7 @@ export async function playBackgroundMusic() {
     const loopWithPause = async () => {
       if (!bgMusic) return;
       try {
+        await bgMusic.setVolumeAsync(0);
         await bgMusic.setPositionAsync(0);
         await bgMusic.playAsync();
 
