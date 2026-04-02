@@ -27,12 +27,21 @@ export async function playBackgroundMusic() {
     );
     bgMusic = sound;
 
-    // Manual loop with 30s hypnotic pause between plays
+    // Manual loop — destroy and recreate sound each time for clean volume
     const loopWithPause = async () => {
-      if (!bgMusic) return;
       try {
-        await bgMusic.setVolumeAsync(0);
-        await bgMusic.setPositionAsync(0);
+        // Destroy old sound
+        if (bgMusic) {
+          try { await bgMusic.unloadAsync(); } catch (e) {}
+          bgMusic = null;
+        }
+
+        // Create fresh
+        const { sound: freshSound } = await Audio.Sound.createAsync(
+          require('../assets/audio/bg-music-loop.mp3'),
+          { isLooping: false, volume: 0 },
+        );
+        bgMusic = freshSound;
         await bgMusic.playAsync();
 
         // Fade in
