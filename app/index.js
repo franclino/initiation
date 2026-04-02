@@ -17,7 +17,8 @@ const ORB_SIZE = 7;
 
 export default function AppOpen() {
   const router = useRouter();
-  const { bg, text, textSoft, accent, starfieldOpacity, wheelOpacity } = useThemeMode();
+  const theme = useThemeMode();
+  const { bg, text, textSoft, accent, starfieldOpacity, wheelOpacity } = theme;
   const rotation = useRef(new Animated.Value(0)).current;
   const orbProgress = useRef(new Animated.Value(0)).current;
 
@@ -151,6 +152,15 @@ export default function AppOpen() {
         activeOpacity={0.7}
       >
         <Text style={[styles.enterText, { color: text }]}>ENTER</Text>
+      </TouchableOpacity>
+
+      {/* Theme toggle */}
+      <TouchableOpacity
+        onPress={theme.toggle}
+        style={{ position: 'absolute', top: 60, right: 20, padding: 10 }}
+        activeOpacity={0.7}
+      >
+        <Text style={{ color: accent, fontSize: 22 }}>{theme.isDark ? '☽' : '☀'}</Text>
       </TouchableOpacity>
     </View>
   );

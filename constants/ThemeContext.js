@@ -1,7 +1,19 @@
 // Theme context — dark/light mode with inverted colors
 import { createContext, useContext, useState } from 'react';
 
-const ThemeContext = createContext();
+const ThemeContext = createContext({
+  isDark: true,
+  toggle: () => {},
+  bg: '#000000',
+  text: '#eeeeee',
+  textSoft: 'rgba(238,238,238,0.7)',
+  accent: '#c8a960',
+  glow: '#b874d6',
+  card: 'rgba(200,169,96,0.03)',
+  cardBorder: 'rgba(200,169,96,0.2)',
+  starfieldOpacity: 0.5,
+  wheelOpacity: 0.4,
+});
 
 export function ThemeProvider({ children }) {
   const [isDark, setIsDark] = useState(true);
