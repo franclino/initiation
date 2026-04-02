@@ -5,54 +5,44 @@ import { useEffect, useRef, useMemo, useState } from 'react';
 
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
 
-// Egyptian star shape — 4 elongated rays, slightly offset and rounded
+// Egyptian star — 3 strokes only, slightly offset
 function StarShape({ size, color }) {
-  const rayWidth = size * 0.15;
-  const tilt = useMemo(() => Math.random() * 30 - 15, []); // slight random tilt
+  const rayWidth = size * 0.12;
+  const tilt = useMemo(() => Math.random() * 25 - 12, []);
 
   return (
     <View style={{ width: size, height: size, transform: [{ rotate: `${tilt}deg` }] }}>
-      {/* Vertical ray */}
+      {/* Stroke 1 — vertical */}
       <View style={{
         position: 'absolute',
         left: (size - rayWidth) / 2,
-        top: 0,
+        top: size * 0.05,
         width: rayWidth,
-        height: size,
-        borderRadius: rayWidth / 2,
+        height: size * 0.9,
+        borderRadius: rayWidth,
         backgroundColor: color,
       }} />
-      {/* Horizontal ray */}
-      <View style={{
-        position: 'absolute',
-        top: (size - rayWidth) / 2,
-        left: 0,
-        width: size,
-        height: rayWidth,
-        borderRadius: rayWidth / 2,
-        backgroundColor: color,
-      }} />
-      {/* Diagonal ray — top-left to bottom-right */}
+      {/* Stroke 2 — tilted left */}
       <View style={{
         position: 'absolute',
         left: (size - rayWidth) / 2,
-        top: 0,
+        top: size * 0.05,
         width: rayWidth,
-        height: size,
-        borderRadius: rayWidth / 2,
+        height: size * 0.9,
+        borderRadius: rayWidth,
         backgroundColor: color,
-        transform: [{ rotate: '45deg' }],
+        transform: [{ rotate: '60deg' }],
       }} />
-      {/* Diagonal ray — top-right to bottom-left */}
+      {/* Stroke 3 — tilted right */}
       <View style={{
         position: 'absolute',
         left: (size - rayWidth) / 2,
-        top: 0,
+        top: size * 0.05,
         width: rayWidth,
-        height: size,
-        borderRadius: rayWidth / 2,
+        height: size * 0.9,
+        borderRadius: rayWidth,
         backgroundColor: color,
-        transform: [{ rotate: '-45deg' }],
+        transform: [{ rotate: '-60deg' }],
       }} />
     </View>
   );
@@ -66,7 +56,7 @@ function Sparkle({ color }) {
     y: Math.random() * SCREEN_H,
   });
 
-  const size = useMemo(() => 8 + Math.random() * 14, []);
+  const size = useMemo(() => 4 + Math.random() * 8, []);
   const delay = useMemo(() => Math.random() * 8000, []);
 
   useEffect(() => {
