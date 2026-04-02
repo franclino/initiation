@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Animated, Easing, Dimensions 
 import { useRouter } from 'expo-router';
 import { useEffect, useRef } from 'react';
 import { FONTS, LOGO } from '../constants/theme';
+import { useThemeMode } from '../constants/ThemeContext';
 import { playBackgroundMusic, playIntroVoice } from '../components/AudioManager';
 
 const { width: SCREEN_W } = Dimensions.get('window');
@@ -16,6 +17,7 @@ const ORB_SIZE = 7;
 
 export default function AppOpen() {
   const router = useRouter();
+  const { bg, text, textSoft, accent, starfieldOpacity, wheelOpacity } = useThemeMode();
   const rotation = useRef(new Animated.Value(0)).current;
   const orbProgress = useRef(new Animated.Value(0)).current;
 
@@ -75,12 +77,12 @@ export default function AppOpen() {
   });
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: bg }]}>
       {/* Sacred geometry wheel — slow spin */}
       <View style={styles.wheelWrap}>
         <Animated.Image
           source={LOGO.wheelOnly}
-          style={[styles.wheelImage, { transform: [{ rotate: spin }] }]}
+          style={[styles.wheelImage, { transform: [{ rotate: spin }], opacity: wheelOpacity }]}
           resizeMode="contain"
         />
       </View>
@@ -88,7 +90,7 @@ export default function AppOpen() {
       {/* NASA starfield background */}
       <Animated.Image
         source={require('../assets/images/starfield.jpg')}
-        style={styles.starfield}
+        style={[styles.starfield, { opacity: starfieldOpacity }]}
         resizeMode="cover"
       />
 
@@ -140,15 +142,15 @@ export default function AppOpen() {
       </View>
 
       {/* Text */}
-      <Text style={styles.title}>INITIATION</Text>
-      <Text style={styles.subtitle}>A Journey to Self-Discovery</Text>
+      <Text style={[styles.title, { color: text }]}>INITIATION</Text>
+      <Text style={[styles.subtitle, { color: textSoft }]}>A Journey to Self-Discovery</Text>
 
       <TouchableOpacity
         style={styles.enterButton}
         onPress={() => router.push('/home')}
         activeOpacity={0.7}
       >
-        <Text style={styles.enterText}>ENTER</Text>
+        <Text style={[styles.enterText, { color: text }]}>ENTER</Text>
       </TouchableOpacity>
     </View>
   );
