@@ -4,6 +4,7 @@ import { View, StyleSheet, Dimensions, Animated, Easing, Image } from 'react-nat
 import { useEffect, useRef, useMemo } from 'react';
 import { COLORS, LOGO } from '../constants/theme';
 
+const STARFIELD = require('../assets/images/starfield.jpg');
 const WHEEL_SIZE = SCREEN_W * 1.5;
 
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
@@ -215,6 +216,9 @@ export default function AtmosphericBackground({ season = 'samhain', children }) 
 
   return (
     <View style={[styles.container, { backgroundColor: bgColor }]}>
+      {/* Starfield everywhere */}
+      <Image source={STARFIELD} style={styles.starfield} resizeMode="cover" />
+
       {/* Big spinning sacred geometry wheel in background */}
       <SpinningWheel />
 
@@ -231,6 +235,10 @@ export default function AtmosphericBackground({ season = 'samhain', children }) 
 
 const styles = StyleSheet.create({
   container: { flex: 1, overflow: 'hidden' },
+  starfield: {
+    position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+    opacity: 0.5,
+  },
   spinningWheel: {
     position: 'absolute',
     top: (SCREEN_H - WHEEL_SIZE) / 2,
