@@ -122,6 +122,7 @@ export const LOGO = {
   dark: require('../assets/images/logo/logo-dark.png'),
   light: require('../assets/images/logo/logo-light.jpg'),
   wheelOnly: require('../assets/images/logo/wheel-only.png'),
+  wheelOnlyLight: require('../assets/images/logo/wheel-only-light.png'),
 };
 
 // Board

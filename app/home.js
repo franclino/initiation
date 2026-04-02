@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Animated, Easing, Dimensions 
 import { useRouter } from 'expo-router';
 import { useEffect, useRef } from 'react';
 import { COLORS, FONTS, LOGO } from '../constants/theme';
+import { useThemeMode } from '../constants/ThemeContext';
 
 const STARFIELD = require('../assets/images/starfield.jpg');
 
@@ -64,6 +65,7 @@ function SacredCard({ symbol, title, subtitle, onPress, delay, glowColor, muted 
 
 export default function HomeScreen() {
   const router = useRouter();
+  const theme = useThemeMode();
   const rotation = useRef(new Animated.Value(0)).current;
   const titleFade = useRef(new Animated.Value(0)).current;
 
@@ -87,22 +89,22 @@ export default function HomeScreen() {
   });
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.bg }]}>
       {/* Starfield */}
-      <Animated.Image source={STARFIELD} style={styles.starfield} resizeMode="cover" />
+      <Animated.Image source={STARFIELD} style={[styles.starfield, { opacity: theme.starfieldOpacity }]} resizeMode="cover" />
 
       {/* Spinning wheel */}
       <View style={styles.wheelWrap}>
         <Animated.Image
-          source={LOGO.wheelOnly}
-          style={[styles.wheelImage, { transform: [{ rotate: spin }] }]}
+          source={theme.wheelImage}
+          style={[styles.wheelImage, { transform: [{ rotate: spin }], opacity: theme.wheelOpacity }]}
           resizeMode="contain"
         />
       </View>
 
       {/* Content */}
       <View style={styles.content}>
-        <Animated.Text style={[styles.title, { opacity: titleFade }]}>
+        <Animated.Text style={[styles.title, { opacity: titleFade, color: theme.text }]}>
           Where would you like to begin?
         </Animated.Text>
 

@@ -18,7 +18,7 @@ const ORB_SIZE = 7;
 export default function AppOpen() {
   const router = useRouter();
   const theme = useThemeMode();
-  const { bg, text, textSoft, accent, starfieldOpacity, wheelOpacity } = theme;
+  const { bg, text, textSoft, accent, starfieldOpacity, wheelOpacity, wheelImage, enterBorder, enterBg } = theme;
   const rotation = useRef(new Animated.Value(0)).current;
   const orbProgress = useRef(new Animated.Value(0)).current;
 
@@ -82,7 +82,7 @@ export default function AppOpen() {
       {/* Sacred geometry wheel — slow spin */}
       <View style={styles.wheelWrap}>
         <Animated.Image
-          source={LOGO.wheelOnly}
+          source={wheelImage}
           style={[styles.wheelImage, { transform: [{ rotate: spin }], opacity: wheelOpacity }]}
           resizeMode="contain"
         />
@@ -147,20 +147,20 @@ export default function AppOpen() {
       <Text style={[styles.subtitle, { color: textSoft }]}>A Journey to Self-Discovery</Text>
 
       <TouchableOpacity
-        style={styles.enterButton}
+        style={[styles.enterButton, { borderColor: enterBorder, backgroundColor: enterBg }]}
         onPress={() => router.push('/home')}
         activeOpacity={0.7}
       >
         <Text style={[styles.enterText, { color: text }]}>ENTER</Text>
       </TouchableOpacity>
 
-      {/* Theme toggle */}
+      {/* Theme toggle — top right */}
       <TouchableOpacity
         onPress={theme.toggle}
-        style={{ position: 'absolute', top: 60, right: 20, padding: 10 }}
+        style={styles.themeToggle}
         activeOpacity={0.7}
       >
-        <Text style={{ color: accent, fontSize: 22 }}>{theme.isDark ? '☽' : '☀'}</Text>
+        <Text style={[styles.themeIcon, { color: accent }]}>{theme.isDark ? '☽' : '☀'}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -245,5 +245,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#ffffff',
     letterSpacing: 8,
+  },
+  themeToggle: {
+    position: 'absolute',
+    top: 60,
+    right: 20,
+    padding: 10,
+  },
+  themeIcon: {
+    fontSize: 20,
+    opacity: 0.6,
   },
 });
