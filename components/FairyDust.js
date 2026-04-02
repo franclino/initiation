@@ -5,49 +5,44 @@ import { useEffect, useRef, useMemo, useState } from 'react';
 
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
 
-// Egyptian star — 3 ends only, like a Y radiating from center
+// Egyptian star — 3 strokes crossing through center (6 points like the hieroglyph)
 function StarShape({ size, color }) {
-  const rayWidth = size * 0.14;
-  const rayLength = size * 0.5;
-  const tilt = useMemo(() => Math.random() * 30 - 15, []);
-  const cx = size / 2;
-  const cy = size / 2;
+  const rayWidth = size * 0.13;
+  const tilt = useMemo(() => Math.random() * 20 - 10, []);
 
   return (
     <View style={{ width: size, height: size, transform: [{ rotate: `${tilt}deg` }] }}>
-      {/* Ray 1 — straight up */}
+      {/* Stroke 1 — vertical | */}
       <View style={{
         position: 'absolute',
-        left: cx - rayWidth / 2,
-        top: cy - rayLength,
+        left: (size - rayWidth) / 2,
+        top: 0,
         width: rayWidth,
-        height: rayLength,
+        height: size,
         borderRadius: rayWidth,
         backgroundColor: color,
       }} />
-      {/* Ray 2 — down-left (120°) */}
+      {/* Stroke 2 — diagonal / */}
       <View style={{
         position: 'absolute',
-        left: cx - rayWidth / 2,
-        top: cy,
+        left: (size - rayWidth) / 2,
+        top: 0,
         width: rayWidth,
-        height: rayLength,
+        height: size,
         borderRadius: rayWidth,
         backgroundColor: color,
-        transformOrigin: 'top center',
-        transform: [{ rotate: '120deg' }],
+        transform: [{ rotate: '60deg' }],
       }} />
-      {/* Ray 3 — down-right (240°) */}
+      {/* Stroke 3 — diagonal \ */}
       <View style={{
         position: 'absolute',
-        left: cx - rayWidth / 2,
-        top: cy,
+        left: (size - rayWidth) / 2,
+        top: 0,
         width: rayWidth,
-        height: rayLength,
+        height: size,
         borderRadius: rayWidth,
         backgroundColor: color,
-        transformOrigin: 'top center',
-        transform: [{ rotate: '240deg' }],
+        transform: [{ rotate: '-60deg' }],
       }} />
     </View>
   );
