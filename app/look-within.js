@@ -4,12 +4,12 @@ import { View, Text, TouchableOpacity, StyleSheet, Animated, Easing, Dimensions 
 import { useRouter } from 'expo-router';
 import { useEffect, useRef } from 'react';
 import { COLORS, FONTS, LOGO } from '../constants/theme';
+import MoonPhaseHorns from '../components/MoonPhaseHorns';
+
+const STARFIELD = require('../assets/images/starfield.jpg');
 
 const { width: SCREEN_W } = Dimensions.get('window');
 const WHEEL_SIZE = SCREEN_W * 1.95;
-const ARC_WIDTH = SCREEN_W * 0.75;
-const ARC_HEIGHT = 45;
-const ORB_SIZE = 7;
 
 function SacredCard({ symbol, title, subtitle, onPress, delay, glowColor }) {
   const fadeIn = useRef(new Animated.Value(0)).current;
@@ -53,25 +53,15 @@ function SacredCard({ symbol, title, subtitle, onPress, delay, glowColor }) {
 export default function LookWithin() {
   const router = useRouter();
   const rotation = useRef(new Animated.Value(0)).current;
-  const orbProgress = useRef(new Animated.Value(0)).current;
   const titleFade = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    Animated.loop(
-      Animated.timing(rotation, {
-        toValue: 1,
-        duration: 38000,
-        easing: Easing.linear,
-        useNativeDriver: true,
-      }),
-    ).start();
-
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(orbProgress, { toValue: 1, duration: 6000, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
-        Animated.timing(orbProgress, { toValue: 0, duration: 6000, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
-      ]),
-    ).start();
+    Animated.timing(rotation, {
+      toValue: 100,
+      duration: 38000 * 100,
+      easing: Easing.linear,
+      useNativeDriver: true,
+    }).start();
 
     Animated.timing(titleFade, { toValue: 1, duration: 1000, useNativeDriver: true }).start();
   }, []);
@@ -81,23 +71,11 @@ export default function LookWithin() {
     outputRange: ['0deg', '360deg'],
   });
 
-  const orbX = orbProgress.interpolate({
-    inputRange: [0, 1],
-    outputRange: [-(ARC_WIDTH / 2), ARC_WIDTH / 2],
-  });
-
-  const orbY = orbProgress.interpolate({
-    inputRange: [0, 0.15, 0.5, 0.85, 1],
-    outputRange: [0, ARC_HEIGHT * 0.6, ARC_HEIGHT * 1.35, ARC_HEIGHT * 0.6, 0],
-  });
-
-  const orbOpacity = orbProgress.interpolate({
-    inputRange: [0, 0.5, 1],
-    outputRange: [0.4, 1, 0.4],
-  });
-
   return (
     <View style={styles.container}>
+      {/* Starfield */}
+      <Animated.Image source={STARFIELD} style={styles.starfield} resizeMode="cover" />
+
       {/* Spinning wheel */}
       <View style={styles.wheelWrap}>
         <Animated.Image
@@ -109,19 +87,8 @@ export default function LookWithin() {
 
       {/* Content */}
       <View style={styles.content}>
-        {/* Half-moon crescent */}
-        <View style={styles.arcContainer}>
-          <View style={styles.arcLine} />
-          <Animated.View
-            style={[
-              styles.orb,
-              {
-                transform: [{ translateX: orbX }, { translateY: orbY }],
-                opacity: orbOpacity,
-              },
-            ]}
-          />
-        </View>
+        {/* Moon phase horns */}
+        <MoonPhaseHorns />
 
         <Animated.Text style={[styles.title, { opacity: titleFade }]}>Look Within</Animated.Text>
         <Animated.Text style={[styles.subtitle, { opacity: titleFade }]}>Sacred Archetypal Journey</Animated.Text>
@@ -153,6 +120,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000000',
   },
+  starfield: {
+    position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+    opacity: 0.5,
+  },
   wheelWrap: {
     position: 'absolute',
     top: -(WHEEL_SIZE * 0.45),
@@ -173,36 +144,6 @@ const styles = StyleSheet.create({
     left: 24,
     right: 24,
     alignItems: 'center',
-  },
-  arcContainer: {
-    width: ARC_WIDTH,
-    height: ARC_HEIGHT + ORB_SIZE + 14,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    marginBottom: 10,
-  },
-  arcLine: {
-    position: 'absolute',
-    top: 0,
-    width: ARC_WIDTH,
-    height: ARC_HEIGHT * 2,
-    borderBottomLeftRadius: ARC_WIDTH / 2.5,
-    borderBottomRightRadius: ARC_WIDTH / 2.5,
-    borderBottomWidth: 1,
-    borderLeftWidth: 0.5,
-    borderRightWidth: 0.5,
-    borderColor: 'rgba(200,169,96,0.18)',
-    borderTopWidth: 0,
-  },
-  orb: {
-    width: ORB_SIZE,
-    height: ORB_SIZE,
-    borderRadius: ORB_SIZE / 2,
-    backgroundColor: '#c8a960',
-    shadowColor: '#c8a960',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.8,
-    shadowRadius: 8,
   },
   title: {
     fontFamily: FONTS.headingLight,

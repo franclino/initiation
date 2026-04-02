@@ -5,6 +5,8 @@ import { useRouter } from 'expo-router';
 import { useEffect, useRef } from 'react';
 import { COLORS, FONTS, LOGO } from '../constants/theme';
 
+const STARFIELD = require('../assets/images/starfield.jpg');
+
 const { width: SCREEN_W } = Dimensions.get('window');
 const WHEEL_SIZE = SCREEN_W * 1.95;
 
@@ -86,6 +88,9 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
+      {/* Starfield */}
+      <Animated.Image source={STARFIELD} style={styles.starfield} resizeMode="cover" />
+
       {/* Spinning wheel */}
       <View style={styles.wheelWrap}>
         <Animated.Image
@@ -136,6 +141,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000000',
+  },
+  starfield: {
+    position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+    opacity: 0.5,
   },
   wheelWrap: {
     position: 'absolute',
