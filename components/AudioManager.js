@@ -1,57 +1,47 @@
-// Audio manager — uses expo-audio (SDK 54+)
-import { useAudioPlayer } from 'expo-audio';
-
-// We can't use hooks outside components, so use the imperative API
+// Audio manager
 import { Audio } from 'expo-av';
 
 let bgMusic = null;
 let voiceSound = null;
 let lastTickTime = 0;
+let isPlaying = false;
 
 const TICK_COOLDOWN = 6000;
 
 export async function playBackgroundMusic() {
+  if (isPlaying) return; // Prevent double calls
+  isPlaying = true;
+
   try {
     await Audio.setAudioModeAsync({
       playsInSilentModeIOS: true,
       staysActiveInBackground: false,
     });
 
-    if (bgMusic) {
-      try { await bgMusic.unloadAsync(); } catch (e) {}
-    }
-
-    const { sound } = await Audio.Sound.createAsync(
-      require('../assets/audio/bg-music-loop.mp3'),
-      { isLooping: false, volume: 0 },
-    );
-    bgMusic = sound;
-
-    // Manual loop — destroy and recreate sound each time for clean volume
     const loopWithPause = async () => {
       try {
-        // Destroy old sound
+        // Clean up previous
         if (bgMusic) {
           try { await bgMusic.unloadAsync(); } catch (e) {}
           bgMusic = null;
         }
 
-        // Create fresh
-        const { sound: freshSound } = await Audio.Sound.createAsync(
+        // Create fresh at volume 0
+        const { sound } = await Audio.Sound.createAsync(
           require('../assets/audio/bg-music-loop.mp3'),
           { isLooping: false, volume: 0 },
         );
-        bgMusic = freshSound;
+        bgMusic = sound;
         await bgMusic.playAsync();
 
-        // Fade in
+        // Slow fade in
         let vol = 0;
         await new Promise((resolve) => {
           const fadeIn = setInterval(async () => {
-            vol += 0.01;
-            if (vol >= 0.15) {
+            vol += 0.005;
+            if (vol >= 0.12) {
               clearInterval(fadeIn);
-              vol = 0.15;
+              vol = 0.12;
               resolve();
             }
             try { await bgMusic.setVolumeAsync(vol); } catch (e) { clearInterval(fadeIn); resolve(); }
@@ -68,13 +58,13 @@ export async function playBackgroundMusic() {
           });
         });
 
-        // 30 second hypnotic silence
+        // 30 second silence
         await new Promise((r) => setTimeout(r, 30000));
 
-        // Voice comes back at the start of each loop
+        // Voice comes back
         playIntroVoice();
 
-        // Loop again
+        // Loop
         loopWithPause();
       } catch (e) {}
     };
@@ -82,26 +72,17 @@ export async function playBackgroundMusic() {
     loopWithPause();
   } catch (e) {
     console.log('BG music error:', e);
+    isPlaying = false;
   }
 }
 
 export async function stopBackgroundMusic() {
+  isPlaying = false;
   try {
     if (bgMusic) {
-      let vol = 0.15;
-      const fadeOut = setInterval(async () => {
-        vol -= 0.01;
-        if (vol <= 0) {
-          clearInterval(fadeOut);
-          try {
-            await bgMusic.stopAsync();
-            await bgMusic.unloadAsync();
-          } catch (e) {}
-          bgMusic = null;
-          return;
-        }
-        try { await bgMusic.setVolumeAsync(vol); } catch (e) { clearInterval(fadeOut); }
-      }, 80);
+      await bgMusic.stopAsync();
+      await bgMusic.unloadAsync();
+      bgMusic = null;
     }
   } catch (e) {}
 }
@@ -116,7 +97,7 @@ export async function playIntroVoice() {
 
     const { sound } = await Audio.Sound.createAsync(
       require('../assets/audio/intro-voice.mp3'),
-      { volume: 0.6 },
+      { volume: 0.4 },
     );
     voiceSound = sound;
 
@@ -138,7 +119,7 @@ export async function playChime() {
   try {
     const { sound } = await Audio.Sound.createAsync(
       require('../assets/audio/chime.mp3'),
-      { volume: 0.5 },
+      { volume: 0.3 },
     );
     await sound.playAsync();
     sound.setOnPlaybackStatusUpdate((status) => {
@@ -155,7 +136,7 @@ export async function playWheelTick() {
   try {
     const { sound } = await Audio.Sound.createAsync(
       require('../assets/audio/wheel-tick.mp3'),
-      { volume: 0.4 },
+      { volume: 0.3 },
     );
     await sound.playAsync();
     sound.setOnPlaybackStatusUpdate((status) => {
