@@ -20,9 +20,8 @@ export default function AppOpen() {
   const orbProgress = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    // Start background music low + voice overlay
+    // Start background music only — no voice for now
     playBackgroundMusic();
-    playIntroVoice();
 
     // Spin to a huge number so it never loops back
     Animated.timing(rotation, {
