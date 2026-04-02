@@ -23,9 +23,8 @@ export default function AppOpen() {
   const orbProgress = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    // Music + voice — voice plays at start and on each loop restart
-    playBackgroundMusic()
-    playIntroVoice();
+    // Music + voice — voice is triggered inside playBackgroundMusic
+    playBackgroundMusic();
 
     // Spin to a huge number so it never loops back
     Animated.timing(rotation, {

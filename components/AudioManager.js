@@ -18,6 +18,8 @@ export async function playBackgroundMusic() {
       staysActiveInBackground: false,
     });
 
+    let firstTime = true;
+
     const loopWithPause = async () => {
       try {
         // Clean up previous
@@ -25,6 +27,13 @@ export async function playBackgroundMusic() {
           try { await bgMusic.unloadAsync(); } catch (e) {}
           bgMusic = null;
         }
+
+        // Voice at start of each cycle
+        playIntroVoice();
+
+        // Wait for voice to start before music
+        await new Promise((r) => setTimeout(r, firstTime ? 2500 : 2500));
+        firstTime = false;
 
         // Create fresh at volume 0
         const { sound } = await Audio.Sound.createAsync(
@@ -61,9 +70,6 @@ export async function playBackgroundMusic() {
         // 30 second silence
         await new Promise((r) => setTimeout(r, 30000));
 
-        // Voice comes back
-        playIntroVoice();
-
         // Loop
         loopWithPause();
       } catch (e) {}
@@ -97,7 +103,7 @@ export async function playIntroVoice() {
 
     const { sound } = await Audio.Sound.createAsync(
       require('../assets/audio/intro-voice.mp3'),
-      { volume: 0.4 },
+      { volume: 0.2 },
     );
     voiceSound = sound;
 
