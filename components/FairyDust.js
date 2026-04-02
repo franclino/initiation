@@ -5,44 +5,49 @@ import { useEffect, useRef, useMemo, useState } from 'react';
 
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
 
-// Egyptian star — 3 strokes only, slightly offset
+// Egyptian star — 3 ends only, like a Y radiating from center
 function StarShape({ size, color }) {
-  const rayWidth = size * 0.12;
-  const tilt = useMemo(() => Math.random() * 25 - 12, []);
+  const rayWidth = size * 0.14;
+  const rayLength = size * 0.5;
+  const tilt = useMemo(() => Math.random() * 30 - 15, []);
+  const cx = size / 2;
+  const cy = size / 2;
 
   return (
     <View style={{ width: size, height: size, transform: [{ rotate: `${tilt}deg` }] }}>
-      {/* Stroke 1 — vertical */}
+      {/* Ray 1 — straight up */}
       <View style={{
         position: 'absolute',
-        left: (size - rayWidth) / 2,
-        top: size * 0.05,
+        left: cx - rayWidth / 2,
+        top: cy - rayLength,
         width: rayWidth,
-        height: size * 0.9,
+        height: rayLength,
         borderRadius: rayWidth,
         backgroundColor: color,
       }} />
-      {/* Stroke 2 — tilted left */}
+      {/* Ray 2 — down-left (120°) */}
       <View style={{
         position: 'absolute',
-        left: (size - rayWidth) / 2,
-        top: size * 0.05,
+        left: cx - rayWidth / 2,
+        top: cy,
         width: rayWidth,
-        height: size * 0.9,
+        height: rayLength,
         borderRadius: rayWidth,
         backgroundColor: color,
-        transform: [{ rotate: '60deg' }],
+        transformOrigin: 'top center',
+        transform: [{ rotate: '120deg' }],
       }} />
-      {/* Stroke 3 — tilted right */}
+      {/* Ray 3 — down-right (240°) */}
       <View style={{
         position: 'absolute',
-        left: (size - rayWidth) / 2,
-        top: size * 0.05,
+        left: cx - rayWidth / 2,
+        top: cy,
         width: rayWidth,
-        height: size * 0.9,
+        height: rayLength,
         borderRadius: rayWidth,
         backgroundColor: color,
-        transform: [{ rotate: '-60deg' }],
+        transformOrigin: 'top center',
+        transform: [{ rotate: '240deg' }],
       }} />
     </View>
   );
@@ -68,22 +73,22 @@ function Sparkle({ color }) {
 
       Animated.sequence([
         Animated.delay(delay + Math.random() * 6000),
-        // Pop in
+        // Fade in slowly
         Animated.parallel([
-          Animated.timing(opacity, { toValue: 0.9, duration: 300, useNativeDriver: true }),
-          Animated.spring(scale, { toValue: 1, friction: 4, tension: 60, useNativeDriver: true }),
+          Animated.timing(opacity, { toValue: 0.9, duration: 800, easing: Easing.out(Easing.cubic), useNativeDriver: true }),
+          Animated.spring(scale, { toValue: 1, friction: 5, tension: 40, useNativeDriver: true }),
         ]),
         // Hold and twinkle
         Animated.sequence([
-          Animated.timing(opacity, { toValue: 0.3, duration: 200, useNativeDriver: true }),
-          Animated.timing(opacity, { toValue: 0.9, duration: 200, useNativeDriver: true }),
-          Animated.timing(opacity, { toValue: 0.2, duration: 150, useNativeDriver: true }),
-          Animated.timing(opacity, { toValue: 0.8, duration: 150, useNativeDriver: true }),
+          Animated.timing(opacity, { toValue: 0.3, duration: 300, useNativeDriver: true }),
+          Animated.timing(opacity, { toValue: 0.9, duration: 300, useNativeDriver: true }),
+          Animated.timing(opacity, { toValue: 0.2, duration: 250, useNativeDriver: true }),
+          Animated.timing(opacity, { toValue: 0.7, duration: 250, useNativeDriver: true }),
         ]),
-        // Fade out
+        // Long slow fade out
         Animated.parallel([
-          Animated.timing(opacity, { toValue: 0, duration: 800, easing: Easing.out(Easing.cubic), useNativeDriver: true }),
-          Animated.timing(scale, { toValue: 0.3, duration: 800, useNativeDriver: true }),
+          Animated.timing(opacity, { toValue: 0, duration: 2000, easing: Easing.out(Easing.cubic), useNativeDriver: true }),
+          Animated.timing(scale, { toValue: 0.2, duration: 2000, useNativeDriver: true }),
         ]),
       ]).start(() => sparkle());
     };
