@@ -39,9 +39,9 @@ export async function playBackgroundMusic() {
         await new Promise((resolve) => {
           const fadeIn = setInterval(async () => {
             vol += 0.01;
-            if (vol >= 0.25) {
+            if (vol >= 0.15) {
               clearInterval(fadeIn);
-              vol = 0.25;
+              vol = 0.15;
               resolve();
             }
             try { await bgMusic.setVolumeAsync(vol); } catch (e) { clearInterval(fadeIn); resolve(); }
@@ -75,7 +75,7 @@ export async function playBackgroundMusic() {
 export async function stopBackgroundMusic() {
   try {
     if (bgMusic) {
-      let vol = 0.25;
+      let vol = 0.15;
       const fadeOut = setInterval(async () => {
         vol -= 0.01;
         if (vol <= 0) {
@@ -103,7 +103,7 @@ export async function playIntroVoice() {
 
     const { sound } = await Audio.Sound.createAsync(
       require('../assets/audio/intro-voice.mp3'),
-      { volume: 0.85 },
+      { volume: 0.6 },
     );
     voiceSound = sound;
 
